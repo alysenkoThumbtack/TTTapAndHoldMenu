@@ -265,8 +265,6 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
         }
     }
     
-    
-    
     func deviceOrientationDidChange(notification: NSNotification) {
         hide()
     }
@@ -334,7 +332,6 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
         }
     }
     
-    
     private func isValidPair(view: UIView, gestureRecognizer: UIGestureRecognizer) -> Bool {
         if let v = gestureRecognizer.view {
             if v != view {
@@ -347,5 +344,4 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
         
         return true
     }
-    
 }
