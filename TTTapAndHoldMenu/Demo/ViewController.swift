@@ -21,6 +21,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.registerClass(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: "header")
         
         contextMenu.hintTextColor = UIColor.blackColor()
+        contextMenu.backViewColor = UIColor.clearColor()
+        contextMenu.backStancilViewColor = UIColor(white: 1.0, alpha: 0.6)
+        
+        contextMenu.radius = 64
+        contextMenu.angle = M_PI_4
         
         contextMenu.dataSource = self
         contextMenu.delegate = self
@@ -139,22 +144,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         default:
             return 0
         }
-    }
-    
-    func angleForMenu(menu: TTTapAndHoldMenu) -> Double {
-        return M_PI_4
-    }
-    
-    func radiusForMenu(menu: TTTapAndHoldMenu) -> Float {
-        return 64
-    }
-    
-    func backViewColor(menu: TTTapAndHoldMenu) -> UIColor {
-        return UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.0)
-    }
-    
-    func backStancilViewColor(menu: TTTapAndHoldMenu) -> UIColor {
-        return UIColor(white: 1.0, alpha: 0.6)
     }
 }
 

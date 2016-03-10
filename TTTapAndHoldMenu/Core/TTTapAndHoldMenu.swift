@@ -23,10 +23,6 @@ private extension UITableView {
     }
     
     private func indexForSupplementaryViewAtPoint(point: CGPoint, type: UITableViewSupplementaryViewType) -> NSInteger? {
-//        if self.style == .Plain {
-//            return nil
-//        }
-        
         var supplementaryViewIndex: NSInteger? = nil
         for (var i = 0; i < self.numberOfSections; i++) {
             if let supplementaryView = ((type == .Header) ? self.headerViewForSection(i) : self.footerViewForSection(i)) {
@@ -97,11 +93,11 @@ extension TTTapAndHoldMenuDataSource {
     }
     
     func backViewColor(menu: TTTapAndHoldMenu) -> UIColor {
-        return UIColor(white: 0.0, alpha: 0.3)
+        return menu.backViewColor
     }
     
     func backStancilViewColor(menu: TTTapAndHoldMenu) -> UIColor {
-        return UIColor(white: 0.0, alpha: 0.6)
+        return menu.backStancilViewColor
     }
     
     func hintTextColor(menu: TTTapAndHoldMenu) -> UIColor {
@@ -135,6 +131,9 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
     
     var hintTextColor: UIColor = UIColor.whiteColor()
     var hintFont: UIFont = UIFont(name: "HelveticaNeue", size: 14)!
+    
+    var backViewColor = UIColor(white: 0.0, alpha: 0.3)
+    var backStancilViewColor = UIColor(white: 0.0, alpha: 0.6)
     
     private var _views = NSHashTable.weakObjectsHashTable()
     private var _longPressRecognizers = NSHashTable.weakObjectsHashTable()
