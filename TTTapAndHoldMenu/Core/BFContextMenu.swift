@@ -45,22 +45,53 @@ private extension UITableView {
 
 var gestureIsActive = false
 
-@objc protocol BFContextMenuDelegate {
-    optional func contextMenuWillAppear(menu: BFContextMenu)
-    optional func contextMenu(menu: BFContextMenu, didSelectItemAtIndex index: Int, withTag tag: String?)
+protocol BFContextMenuDelegate: class {
+    //MARK: - Optional methods
+    func contextMenuWillAppear(menu: BFContextMenu)
+    func contextMenu(menu: BFContextMenu, didSelectItemAtIndex index: Int, withTag tag: String?)
 }
 
-@objc protocol BFContextMenuDataSource {
+extension BFContextMenuDelegate {
+    func contextMenuWillAppear(menu: BFContextMenu) {
+        
+    }
+    
+    func contextMenu(menu: BFContextMenu, didSelectItemAtIndex index: Int, withTag tag: String?) {
+        
+    }
+}
+
+protocol BFContextMenuDataSource: class {
+    //MARK: - Required methods
     func contextMenu(menu: BFContextMenu, imageForItemAtIndex index: Int, withTag tag: String?, forState selected: Bool) -> UIImage
     func numberOfItemsForMenu(menu: BFContextMenu) -> Int
     
-    optional func contextMenu(menu: BFContextMenu, tagForItemAtIndex index: Int) -> String?
-    optional func contextMenu(menu: BFContextMenu, hintForItemAtIndex index: Int, withTag tag: String?) -> String
-    optional func angleForMenu(menu: BFContextMenu) -> Double
-    optional func radiusForMenu(menu: BFContextMenu) -> Float
+    // MARK: - Optional methods
+    func contextMenu(menu: BFContextMenu, tagForItemAtIndex index: Int) -> String?
+    func contextMenu(menu: BFContextMenu, hintForItemAtIndex index: Int, withTag tag: String?) -> String
+    func angleForMenu(menu: BFContextMenu) -> Double
+    func radiusForMenu(menu: BFContextMenu) -> Float
 }
 
-@objc class BFContextMenu: NSObject, UIGestureRecognizerDelegate {
+extension BFContextMenuDataSource {
+    func contextMenu(menu: BFContextMenu, tagForItemAtIndex index: Int) -> String? {
+        return nil
+    }
+    
+    func contextMenu(menu: BFContextMenu, hintForItemAtIndex index: Int, withTag tag: String?) -> String {
+        return ""
+    }
+    
+    func angleForMenu(menu: BFContextMenu) -> Double {
+        return M_PI_2
+    }
+    
+    func radiusForMenu(menu: BFContextMenu) -> Float {
+        return 150
+    }
+}
+
+class BFContextMenu: NSObject, UIGestureRecognizerDelegate {
     
     weak var delegate: BFContextMenuDelegate?
     weak var dataSource: BFContextMenuDataSource?
@@ -116,7 +147,7 @@ var gestureIsActive = false
     
     private func show(point:CGPoint, fromView view: UIView, highlightedView: UIView) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "deviceOrientationDidChange:", name: UIDeviceOrientationDidChangeNotification, object: nil)
-        delegate?.contextMenuWillAppear?(self)
+        delegate?.contextMenuWillAppear(self)
         if let source = dataSource {
             let itemsCount: Int = source.numberOfItemsForMenu(self)
         
@@ -125,30 +156,13 @@ var gestureIsActive = false
                 items.append(self.createItem(i, source: source))
             }
             
-            var dynamicAngle: Double?
-            var dynamicRadius: Float?
-            if let source = self.dataSource {
-                dynamicAngle = source.angleForMenu?(self)
-                dynamicRadius = source.radiusForMenu?(self)
-            }
+            let angle = source.angleForMenu(self)
+            let radius = source.radiusForMenu(self)
             
             menu = BFPinterestLikeMenu(submenus: items, startPoint: point, highlightView: highlightedView)
-            
-            if let angle = dynamicAngle {
-                menu!.maxAngle = Float(angle)
-            }
-            else {
-                menu!.maxAngle = Float(self.angle)
-            }
-            
-            if let radius = dynamicRadius {
-                menu!.distance = radius
-            }
-            else {
-                menu!.distance = self.radius
-            }
-            
-            menu!.maxDistance = menu!.distance + 20
+            menu?.maxAngle = Float(angle)
+            menu?.distance = radius
+            menu?.maxDistance = (menu?.distance)! + 20
             
             menu!.show()
         }
@@ -162,21 +176,13 @@ var gestureIsActive = false
     }
     
     func createItem(index: Int, source: BFContextMenuDataSource) -> PinterestLikeMenuItem {
-        
-        let tag: String? = source.contextMenu?(self, tagForItemAtIndex: index)
+        let tag: String? = source.contextMenu(self, tagForItemAtIndex: index)
         let defaultImage: UIImage = source.contextMenu(self, imageForItemAtIndex: index, withTag: tag, forState: false)
         let selectedImage: UIImage = source.contextMenu(self, imageForItemAtIndex: index, withTag: tag, forState: true)
-        
-        var hint: String? = source.contextMenu?(self, hintForItemAtIndex: index, withTag: tag)
-        
-        if hint == nil {
-            hint = ""
-        }
+        let hint: String = source.contextMenu(self, hintForItemAtIndex: index, withTag: tag)
         
         let item: PinterestLikeMenuItem = PinterestLikeMenuItem(image: defaultImage, selctedImage: selectedImage) { () -> Void in
-            if let menuDelegate = self.delegate {
-                menuDelegate.contextMenu?(self, didSelectItemAtIndex: index, withTag: tag)
-            }
+            self.delegate?.contextMenu(self, didSelectItemAtIndex: index, withTag: tag)
         }
         
         let label = item.label
