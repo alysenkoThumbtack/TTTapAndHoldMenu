@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var contextMenu = BFContextMenu()
+    var contextMenu = TTTapAndHoldMenu()
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -24,7 +24,7 @@
 		A0D630F31C88223F001A0EAC /* PinterestLikeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A0D630EF1C88223F001A0EAC /* PinterestLikeMenuItem.m */; };
 		A0D630F41C88223F001A0EAC /* StencilView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D630F01C88223F001A0EAC /* StencilView.swift */; };
 		A0D630FA1C8829BF001A0EAC /* UIView+Dimension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D630F91C8829BF001A0EAC /* UIView+Dimension.swift */; };
-		A0D630FC1C883057001A0EAC /* BFContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D630FB1C883057001A0EAC /* BFContextMenu.swift */; };
+		A0D630FC1C883057001A0EAC /* TTTapAndHoldMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D630FB1C883057001A0EAC /* TTTapAndHoldMenu.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,7 +50,7 @@
 		A0D630EF1C88223F001A0EAC /* PinterestLikeMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PinterestLikeMenuItem.m; path = Core/PinterestLikeMenu/PinterestLikeMenuItem.m; sourceTree = "<group>"; };
 		A0D630F01C88223F001A0EAC /* StencilView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StencilView.swift; path = Core/PinterestLikeMenu/StencilView.swift; sourceTree = "<group>"; };
 		A0D630F91C8829BF001A0EAC /* UIView+Dimension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIView+Dimension.swift"; path = "Core/Utils/UIView+Dimension.swift"; sourceTree = "<group>"; };
-		A0D630FB1C883057001A0EAC /* BFContextMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BFContextMenu.swift; path = Core/BFContextMenu.swift; sourceTree = "<group>"; };
+		A0D630FB1C883057001A0EAC /* TTTapAndHoldMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TTTapAndHoldMenu.swift; path = Core/TTTapAndHoldMenu.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,7 +127,7 @@
 		A0D630E81C8821ED001A0EAC /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				A0D630FB1C883057001A0EAC /* BFContextMenu.swift */,
+				A0D630FB1C883057001A0EAC /* TTTapAndHoldMenu.swift */,
 				A0D630F51C882574001A0EAC /* Utils */,
 				A0D630E91C882221001A0EAC /* PinterestLikeMenu */,
 			);
@@ -235,7 +235,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A0302BAE1C8FF40800EB252A /* AppDelegate.swift in Sources */,
-				A0D630FC1C883057001A0EAC /* BFContextMenu.swift in Sources */,
+				A0D630FC1C883057001A0EAC /* TTTapAndHoldMenu.swift in Sources */,
 				A0D630F11C88223F001A0EAC /* BFPinterestLikeMenu.swift in Sources */,
 				A0302BAF1C8FF40800EB252A /* ViewController.swift in Sources */,
 				A0D630F31C88223F001A0EAC /* PinterestLikeMenuItem.m in Sources */,

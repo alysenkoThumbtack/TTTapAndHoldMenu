@@ -45,56 +45,68 @@ private extension UITableView {
 
 var gestureIsActive = false
 
-protocol BFContextMenuDelegate: class {
+protocol TTTapAndHoldMenuDelegate: class {
     //MARK: - Optional methods
-    func contextMenuWillAppear(menu: BFContextMenu)
-    func contextMenu(menu: BFContextMenu, didSelectItemAtIndex index: Int, withTag tag: String?)
+    func contextMenuWillAppear(menu: TTTapAndHoldMenu)
+    func contextMenu(menu: TTTapAndHoldMenu, didSelectItemAtIndex index: Int, withTag tag: String?)
 }
 
-extension BFContextMenuDelegate {
-    func contextMenuWillAppear(menu: BFContextMenu) {
+extension TTTapAndHoldMenuDelegate {
+    func contextMenuWillAppear(menu: TTTapAndHoldMenu) {
         
     }
     
-    func contextMenu(menu: BFContextMenu, didSelectItemAtIndex index: Int, withTag tag: String?) {
+    func contextMenu(menu: TTTapAndHoldMenu, didSelectItemAtIndex index: Int, withTag tag: String?) {
         
     }
 }
 
-protocol BFContextMenuDataSource: class {
+protocol TTTapAndHoldMenuDataSource: class {
     //MARK: - Required methods
-    func contextMenu(menu: BFContextMenu, imageForItemAtIndex index: Int, withTag tag: String?, forState selected: Bool) -> UIImage
-    func numberOfItemsForMenu(menu: BFContextMenu) -> Int
+    func contextMenu(menu: TTTapAndHoldMenu, imageForItemAtIndex index: Int, withTag tag: String?, forState selected: Bool) -> UIImage
+    func numberOfItemsForMenu(menu: TTTapAndHoldMenu) -> Int
     
     // MARK: - Optional methods
-    func contextMenu(menu: BFContextMenu, tagForItemAtIndex index: Int) -> String?
-    func contextMenu(menu: BFContextMenu, hintForItemAtIndex index: Int, withTag tag: String?) -> String
-    func angleForMenu(menu: BFContextMenu) -> Double
-    func radiusForMenu(menu: BFContextMenu) -> Float
+    func contextMenu(menu: TTTapAndHoldMenu, tagForItemAtIndex index: Int) -> String?
+    func contextMenu(menu: TTTapAndHoldMenu, hintForItemAtIndex index: Int, withTag tag: String?) -> String
+    func angleForMenu(menu: TTTapAndHoldMenu) -> Double
+    func radiusForMenu(menu: TTTapAndHoldMenu) -> Float
 }
 
-extension BFContextMenuDataSource {
-    func contextMenu(menu: BFContextMenu, tagForItemAtIndex index: Int) -> String? {
+extension TTTapAndHoldMenuDataSource {
+    func contextMenu(menu: TTTapAndHoldMenu, tagForItemAtIndex index: Int) -> String? {
         return nil
     }
     
-    func contextMenu(menu: BFContextMenu, hintForItemAtIndex index: Int, withTag tag: String?) -> String {
+    func contextMenu(menu: TTTapAndHoldMenu, hintForItemAtIndex index: Int, withTag tag: String?) -> String {
         return ""
     }
     
-    func angleForMenu(menu: BFContextMenu) -> Double {
+    func angleForMenu(menu: TTTapAndHoldMenu) -> Double {
         return M_PI_2
     }
     
-    func radiusForMenu(menu: BFContextMenu) -> Float {
+    func radiusForMenu(menu: TTTapAndHoldMenu) -> Float {
         return 150
     }
 }
 
-class BFContextMenu: NSObject, UIGestureRecognizerDelegate {
+enum TTTapAndHoldMenuInfo {
+    case Empty
     
-    weak var delegate: BFContextMenuDelegate?
-    weak var dataSource: BFContextMenuDataSource?
+    case TableViewCell(tableView: UITableView, indexPath: NSIndexPath)
+    case TableViewSectionHeader(tableView: UITableView, section: NSInteger)
+    case TableViewSectionFooter(tableView: UITableView, section: NSInteger)
+    
+    case CollectionViewItem(collectionView: UICollectionView, indexPath: NSIndexPath)
+    case CollectionViewSupplementaryView(collectionView: UICollectionView, kind: String, indexPath: NSIndexPath)
+    
+    case View(view: UIView)
+}
+
+class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
+    weak var delegate: TTTapAndHoldMenuDelegate?
+    weak var dataSource: TTTapAndHoldMenuDataSource?
     
     var angle: Double = M_PI_2
     var radius: Float = 150
@@ -102,10 +114,11 @@ class BFContextMenu: NSObject, UIGestureRecognizerDelegate {
     var hintTextColor: UIColor = UIColor.whiteColor()
     var hintFont: UIFont = UIFont(name: "HelveticaNeue", size: 14)!
     
-    private var _activeView: UIView?
     private var _views = NSHashTable.weakObjectsHashTable()
     private var _longPressRecognizers = NSHashTable.weakObjectsHashTable()
 
+    private(set) var info: TTTapAndHoldMenuInfo = .Empty
+    
     func attachToView(view: UIView) {
         if _views.containsObject(view) {
             return
@@ -175,7 +188,7 @@ class BFContextMenu: NSObject, UIGestureRecognizerDelegate {
         })
     }
     
-    func createItem(index: Int, source: BFContextMenuDataSource) -> PinterestLikeMenuItem {
+    func createItem(index: Int, source: TTTapAndHoldMenuDataSource) -> PinterestLikeMenuItem {
         let tag: String? = source.contextMenu(self, tagForItemAtIndex: index)
         let defaultImage: UIImage = source.contextMenu(self, imageForItemAtIndex: index, withTag: tag, forState: false)
         let selectedImage: UIImage = source.contextMenu(self, imageForItemAtIndex: index, withTag: tag, forState: true)
