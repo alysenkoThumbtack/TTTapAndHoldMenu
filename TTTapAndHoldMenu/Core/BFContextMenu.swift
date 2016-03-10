@@ -8,6 +8,41 @@
 
 import Foundation
 
+private extension UITableView {
+    func indexForSectionHeaderAtPoint(point: CGPoint) -> NSInteger? {
+        return indexForSupplementaryViewAtPoint(point, type: .Header)
+    }
+    
+    func indexForSectionFooterAtPoint(point: CGPoint) -> NSInteger? {
+        return indexForSupplementaryViewAtPoint(point, type: .Footer)
+    }
+    
+    private enum UITableViewSupplementaryViewType: Int {
+        case Header = 1
+        case Footer = 2
+    }
+    
+    private func indexForSupplementaryViewAtPoint(point: CGPoint, type: UITableViewSupplementaryViewType) -> NSInteger? {
+        if self.style == .Plain {
+            return nil
+        }
+        
+        var supplementaryViewIndex: NSInteger? = nil
+        for (var i = 0; i < self.numberOfSections; i++) {
+            if let supplementaryView = ((type == .Header) ? self.headerViewForSection(i) : self.footerViewForSection(i)) {
+                if let frame = supplementaryView.superview?.convertRect(supplementaryView.frame, toView: self) {
+                    if frame.contains(point) {
+                        supplementaryViewIndex = i
+                        break
+                    }
+                }
+            }
+        }
+        
+        return supplementaryViewIndex
+    }
+}
+
 var gestureIsActive = false
 
 @objc protocol BFContextMenuDelegate {
@@ -36,40 +71,50 @@ var gestureIsActive = false
     var hintTextColor: UIColor = UIColor.whiteColor()
     var hintFont: UIFont = UIFont(name: "HelveticaNeue", size: 14)!
     
-    var longPressRecognizer: UILongPressGestureRecognizer?
-    var view: UIView? {
-        willSet {
-            if newValue == nil {
-                if let gesture = longPressRecognizer {
-                    let selector: Selector = "popMenu:"
-                    gesture.removeTarget(self, action: selector)
-                    
-                    self.view?.removeGestureRecognizer(gesture)
-                }
+    private var _activeView: UIView?
+    private var _views = NSHashTable.weakObjectsHashTable()
+    private var _longPressRecognizers = NSHashTable.weakObjectsHashTable()
+
+    func attachToView(view: UIView) {
+        if _views.containsObject(view) {
+            return
+        }
+        
+        let selector: Selector = "popMenu:"
+        
+        let longPressRecognizer = UILongPressGestureRecognizer(target:self, action: selector)
+        longPressRecognizer.delegate = self
+        view.addGestureRecognizer(longPressRecognizer)
+        
+        _views.addObject(view)
+        _longPressRecognizers.addObject(longPressRecognizer)
+    }
+    
+    func detachFromView(view: UIView) {
+        if !_views.containsObject(view) {
+            return
+        }
+        
+        let recognizers = _longPressRecognizers.objectEnumerator().filter { (recognizer) -> Bool in
+            _views.containsObject((recognizer as! UILongPressGestureRecognizer).view)
+        }
+        if recognizers.count > 0 {
+            if let recognizer = recognizers[0] as? UILongPressGestureRecognizer {
+                let selector: Selector = "popMenu:"
+                recognizer.removeTarget(self, action: selector)
+                view.removeGestureRecognizer(recognizer)
             }
         }
         
-        didSet {
-            if view == nil {
-                return
-            }
-            
-            let selector: Selector = "popMenu:"
-            
-            longPressRecognizer = UILongPressGestureRecognizer(target:self, action: selector)
-            longPressRecognizer?.delegate = self
-            view!.addGestureRecognizer(longPressRecognizer!)
-        }
     }
     
     deinit {
-        view = nil
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     private var menu: BFPinterestLikeMenu?
     
-    private func show(point:CGPoint) {
+    private func show(point:CGPoint, fromView view: UIView, highlightedView: UIView) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "deviceOrientationDidChange:", name: UIDeviceOrientationDidChangeNotification, object: nil)
         delegate?.contextMenuWillAppear?(self)
         if let source = dataSource {
@@ -87,7 +132,7 @@ var gestureIsActive = false
                 dynamicRadius = source.radiusForMenu?(self)
             }
             
-            menu = BFPinterestLikeMenu(submenus: items, startPoint: point, highlightView: view)
+            menu = BFPinterestLikeMenu(submenus: items, startPoint: point, highlightView: highlightedView)
             
             if let angle = dynamicAngle {
                 menu!.maxAngle = Float(angle)
@@ -146,10 +191,11 @@ var gestureIsActive = false
     }
     
     func popMenu(gesture: UIGestureRecognizer) {
-        let location: CGPoint = gesture.locationInView(view!.window!)
+        
+        let location: CGPoint = gesture.locationInView(gesture.view!.window!)
         if gesture.state == UIGestureRecognizerState.Began {
             if !gestureIsActive {
-                show(location)
+                show(location, fromView: gesture.view!, highlightedView: gesture.view!)
                 gestureIsActive = true
             }
         }
