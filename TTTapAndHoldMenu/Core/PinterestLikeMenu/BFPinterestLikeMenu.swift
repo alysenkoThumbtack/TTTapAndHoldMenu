@@ -16,6 +16,7 @@ class BFPinterestLikeMenu: PinterestLikeMenu {
     private var viewToHighlight: UIView?
     
     var backViewColor = UIColor(white: 0.0, alpha: 0.3)
+    var backStancilViewColor = UIColor(white: 0.0, alpha: 0.6)
     
     init(submenus: [AnyObject]!, startPoint point: CGPoint, highlightView view: UIView?) {
         super.init(submenus: submenus, startPoint: point)
@@ -33,8 +34,8 @@ class BFPinterestLikeMenu: PinterestLikeMenu {
     private func addBackView() {
         backView.frame = self.frame
         backStencilView.frame = self.frame
-        backView.backgroundColor = UIColor(white: 0.0, alpha: 0.6)
-        backStencilView.backgroundColor = backViewColor
+        backView.backgroundColor = backViewColor
+        backStencilView.backgroundColor = backStancilViewColor
         if let view = viewToHighlight {
             let windowRect = view.superview!.convertRect(view.frame, toView: nil)
             backStencilView.windowRect = getIntersectionsFor(windowRect, inView: view.superview!)

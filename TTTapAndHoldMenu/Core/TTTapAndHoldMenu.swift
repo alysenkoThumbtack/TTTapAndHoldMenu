@@ -23,9 +23,9 @@ private extension UITableView {
     }
     
     private func indexForSupplementaryViewAtPoint(point: CGPoint, type: UITableViewSupplementaryViewType) -> NSInteger? {
-        if self.style == .Plain {
-            return nil
-        }
+//        if self.style == .Plain {
+//            return nil
+//        }
         
         var supplementaryViewIndex: NSInteger? = nil
         for (var i = 0; i < self.numberOfSections; i++) {
@@ -71,6 +71,12 @@ protocol TTTapAndHoldMenuDataSource: class {
     func contextMenu(menu: TTTapAndHoldMenu, hintForItemAtIndex index: Int, withTag tag: String?) -> String
     func angleForMenu(menu: TTTapAndHoldMenu) -> Double
     func radiusForMenu(menu: TTTapAndHoldMenu) -> Float
+    
+    func backViewColor(menu: TTTapAndHoldMenu) -> UIColor
+    func backStancilViewColor(menu: TTTapAndHoldMenu) -> UIColor
+    
+    func hintTextColor(menu: TTTapAndHoldMenu) -> UIColor
+    func hintFont(menu: TTTapAndHoldMenu) -> UIFont
 }
 
 extension TTTapAndHoldMenuDataSource {
@@ -83,11 +89,27 @@ extension TTTapAndHoldMenuDataSource {
     }
     
     func angleForMenu(menu: TTTapAndHoldMenu) -> Double {
-        return M_PI_2
+        return menu.angle
     }
     
     func radiusForMenu(menu: TTTapAndHoldMenu) -> Float {
-        return 150
+        return menu.radius
+    }
+    
+    func backViewColor(menu: TTTapAndHoldMenu) -> UIColor {
+        return UIColor(white: 0.0, alpha: 0.3)
+    }
+    
+    func backStancilViewColor(menu: TTTapAndHoldMenu) -> UIColor {
+        return UIColor(white: 0.0, alpha: 0.6)
+    }
+    
+    func hintTextColor(menu: TTTapAndHoldMenu) -> UIColor {
+        return menu.hintTextColor
+    }
+    
+    func hintFont(menu: TTTapAndHoldMenu) -> UIFont {
+        return menu.hintFont
     }
 }
 
@@ -171,8 +193,12 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
             
             let angle = source.angleForMenu(self)
             let radius = source.radiusForMenu(self)
+            let backViewColor = source.backViewColor(self)
+            let backStancilViewColor = source.backStancilViewColor(self)
             
             menu = BFPinterestLikeMenu(submenus: items, startPoint: point, highlightView: highlightedView)
+            menu?.backViewColor = backViewColor
+            menu?.backStancilViewColor = backStancilViewColor
             menu?.maxAngle = Float(angle)
             menu?.distance = radius
             menu?.maxDistance = (menu?.distance)! + 20
@@ -185,6 +211,7 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
         gestureIsActive = false
         menu?.finished(false, completionBlock: { () -> Void in
             self.menu = nil
+            self.resetMenuInfo()
         })
     }
     
@@ -210,11 +237,17 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
     }
     
     func popMenu(gesture: UIGestureRecognizer) {
-        
         let location: CGPoint = gesture.locationInView(gesture.view!.window!)
         if gesture.state == UIGestureRecognizerState.Began {
             if !gestureIsActive {
-                show(location, fromView: gesture.view!, highlightedView: gesture.view!)
+                fillMenuInfo(gesture)
+                
+                var highlightedView = getHighlightedView(info)
+                if highlightedView == nil {
+                    highlightedView = gesture.view!
+                }
+                
+                show(location, fromView: gesture.view!, highlightedView: highlightedView!)
                 gestureIsActive = true
             }
         }
@@ -228,9 +261,12 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
             }
             menu?.finished(true, completionBlock: { () -> Void in
                 self.menu = nil
+                self.resetMenuInfo()
             })
         }
     }
+    
+    
     
     func deviceOrientationDidChange(notification: NSNotification) {
         hide()
@@ -239,4 +275,78 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return false
     }
+    
+    //MARK: -
+    
+    private func getHighlightedView(info: TTTapAndHoldMenuInfo) -> UIView? {
+        switch (info) {
+        case .TableViewCell(let tableView, let indexPath):
+            return tableView.cellForRowAtIndexPath(indexPath)
+        case .TableViewSectionFooter(let tableView, let section):
+            return tableView.footerViewForSection(section)
+        case .TableViewSectionHeader(let tableView, let section):
+            return tableView.headerViewForSection(section)
+        case .View(let view):
+            return view
+            //TODO: implement cases for UICollectionView
+        default:
+            return nil
+        }
+    }
+    
+    //MARK: - Menu Info methods
+    
+    private func resetMenuInfo() {
+        info = .Empty
+    }
+    
+    private func fillMenuInfo(gestureRecognizer: UIGestureRecognizer) {
+        if let view = gestureRecognizer.view {
+            if let tableView = view as? UITableView {
+                tableViewCase(tableView, gestureRecognizer: gestureRecognizer)
+            }
+            else if let collectionView = view as? UICollectionView {
+                //TODO: ..
+                info = .View(view: view)
+            }
+            else {
+                info = .View(view: view)
+            }
+        }
+    }
+    
+    private func tableViewCase(tableView: UITableView, gestureRecognizer: UIGestureRecognizer) {
+        if !isValidPair(tableView, gestureRecognizer: gestureRecognizer) {
+            return
+        }
+        
+        let location = gestureRecognizer.locationInView(tableView)
+        if let indexPath = tableView.indexPathForRowAtPoint(location) {
+            info = .TableViewCell(tableView: tableView, indexPath: indexPath)
+        }
+        else if let section = tableView.indexForSectionHeaderAtPoint(location) {
+            info = .TableViewSectionHeader(tableView: tableView, section: section)
+        }
+        else if let section = tableView.indexForSectionFooterAtPoint(location) {
+            info = .TableViewSectionFooter(tableView: tableView, section: section)
+        }
+        else {
+            info = .View(view: tableView)
+        }
+    }
+    
+    
+    private func isValidPair(view: UIView, gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if let v = gestureRecognizer.view {
+            if v != view {
+                return false
+            }
+        }
+        else {
+            return false
+        }
+        
+        return true
+    }
+    
 }

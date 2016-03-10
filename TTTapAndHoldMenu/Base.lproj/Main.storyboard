@@ -21,6 +21,10 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="W3F-Wp-d5S">
                                 <rect key="frame" x="20" y="20" width="560" height="580"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="bjv-qB-c4Y"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="JBx-Dc-Y8M"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -31,6 +35,9 @@
                             <constraint firstAttribute="trailingMargin" secondItem="W3F-Wp-d5S" secondAttribute="trailing" id="zYN-AH-K0V"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="W3F-Wp-d5S" id="q8E-Vw-eHr"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
