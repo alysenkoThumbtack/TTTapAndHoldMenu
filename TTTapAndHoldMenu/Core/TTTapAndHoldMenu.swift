@@ -8,106 +8,8 @@
 
 import Foundation
 
-private extension UITableView {
-    func indexForSectionHeaderAtPoint(point: CGPoint) -> NSInteger? {
-        return indexForSupplementaryViewAtPoint(point, type: .Header)
-    }
-    
-    func indexForSectionFooterAtPoint(point: CGPoint) -> NSInteger? {
-        return indexForSupplementaryViewAtPoint(point, type: .Footer)
-    }
-    
-    private enum UITableViewSupplementaryViewType: Int {
-        case Header = 1
-        case Footer = 2
-    }
-    
-    private func indexForSupplementaryViewAtPoint(point: CGPoint, type: UITableViewSupplementaryViewType) -> NSInteger? {
-        var supplementaryViewIndex: NSInteger? = nil
-        for (var i = 0; i < self.numberOfSections; i++) {
-            if let supplementaryView = ((type == .Header) ? self.headerViewForSection(i) : self.footerViewForSection(i)) {
-                if let frame = supplementaryView.superview?.convertRect(supplementaryView.frame, toView: self) {
-                    if frame.contains(point) {
-                        supplementaryViewIndex = i
-                        break
-                    }
-                }
-            }
-        }
-        
-        return supplementaryViewIndex
-    }
-}
 
 var gestureIsActive = false
-
-protocol TTTapAndHoldMenuDelegate: class {
-    //MARK: - Optional methods
-    func contextMenuWillAppear(menu: TTTapAndHoldMenu)
-    func contextMenu(menu: TTTapAndHoldMenu, didSelectItemAtIndex index: Int, withTag tag: String?)
-}
-
-extension TTTapAndHoldMenuDelegate {
-    func contextMenuWillAppear(menu: TTTapAndHoldMenu) {
-        
-    }
-    
-    func contextMenu(menu: TTTapAndHoldMenu, didSelectItemAtIndex index: Int, withTag tag: String?) {
-        
-    }
-}
-
-protocol TTTapAndHoldMenuDataSource: class {
-    //MARK: - Required methods
-    func contextMenu(menu: TTTapAndHoldMenu, imageForItemAtIndex index: Int, withTag tag: String?, forState selected: Bool) -> UIImage
-    func numberOfItemsForMenu(menu: TTTapAndHoldMenu) -> Int
-    
-    // MARK: - Optional methods
-    func contextMenu(menu: TTTapAndHoldMenu, tagForItemAtIndex index: Int) -> String?
-    func contextMenu(menu: TTTapAndHoldMenu, hintForItemAtIndex index: Int, withTag tag: String?) -> String
-    func angleForMenu(menu: TTTapAndHoldMenu) -> Double
-    func radiusForMenu(menu: TTTapAndHoldMenu) -> Float
-    
-    func backViewColor(menu: TTTapAndHoldMenu) -> UIColor
-    func backStancilViewColor(menu: TTTapAndHoldMenu) -> UIColor
-    
-    func hintTextColor(menu: TTTapAndHoldMenu) -> UIColor
-    func hintFont(menu: TTTapAndHoldMenu) -> UIFont
-}
-
-extension TTTapAndHoldMenuDataSource {
-    func contextMenu(menu: TTTapAndHoldMenu, tagForItemAtIndex index: Int) -> String? {
-        return nil
-    }
-    
-    func contextMenu(menu: TTTapAndHoldMenu, hintForItemAtIndex index: Int, withTag tag: String?) -> String {
-        return ""
-    }
-    
-    func angleForMenu(menu: TTTapAndHoldMenu) -> Double {
-        return menu.angle
-    }
-    
-    func radiusForMenu(menu: TTTapAndHoldMenu) -> Float {
-        return menu.radius
-    }
-    
-    func backViewColor(menu: TTTapAndHoldMenu) -> UIColor {
-        return menu.backViewColor
-    }
-    
-    func backStancilViewColor(menu: TTTapAndHoldMenu) -> UIColor {
-        return menu.backStancilViewColor
-    }
-    
-    func hintTextColor(menu: TTTapAndHoldMenu) -> UIColor {
-        return menu.hintTextColor
-    }
-    
-    func hintFont(menu: TTTapAndHoldMenu) -> UIFont {
-        return menu.hintFont
-    }
-}
 
 enum TTTapAndHoldMenuInfo {
     case Empty
@@ -122,9 +24,28 @@ enum TTTapAndHoldMenuInfo {
     case View(view: UIView)
 }
 
+struct TTMTableViewOptions : OptionSetType {
+    let rawValue: Int
+    
+    static let View = TTMTableViewOptions(rawValue: 1 << 0)
+    static let Cells  = TTMTableViewOptions(rawValue: 1 << 1)
+    static let SectionHeaders = TTMTableViewOptions(rawValue: 1 << 2)
+    static let SectionFooters = TTMTableViewOptions(rawValue: 1 << 3)
+    
+    static func All() -> TTMTableViewOptions {
+        return [View, Cells, SectionHeaders, SectionFooters]
+    }
+    
+    static func None() -> TTMTableViewOptions {
+        return []
+    }
+}
+
 class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
     weak var delegate: TTTapAndHoldMenuDelegate?
     weak var dataSource: TTTapAndHoldMenuDataSource?
+    
+    var tableViewOptions = TTMTableViewOptions.All()
     
     var angle: Double = M_PI_2
     var radius: Float = 150
@@ -181,7 +102,6 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
     
     private func show(point:CGPoint, fromView view: UIView, highlightedView: UIView) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "deviceOrientationDidChange:", name: UIDeviceOrientationDidChangeNotification, object: nil)
-        delegate?.contextMenuWillAppear(self)
         if let source = dataSource {
             let itemsCount: Int = source.numberOfItemsForMenu(self)
         
@@ -239,7 +159,7 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
         let location: CGPoint = gesture.locationInView(gesture.view!.window!)
         if gesture.state == UIGestureRecognizerState.Began {
             if !gestureIsActive {
-                fillMenuInfo(gesture)
+                //fillMenuInfo(gesture)
                 
                 var highlightedView = getHighlightedView(info)
                 if highlightedView == nil {
@@ -265,12 +185,25 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
         }
     }
     
-    func deviceOrientationDidChange(notification: NSNotification) {
-        hide()
+    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+        fillMenuInfo(gestureRecognizer)
+        var shouldShow = delegate?.contextMenuShouldAppear(self) ?? true
+        switch (info) {
+        case .Empty:
+            shouldShow = false
+        default:
+            break
+        }
+        
+        return shouldShow
     }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return false
+    }
+    
+    func deviceOrientationDidChange(notification: NSNotification) {
+        hide()
     }
     
     //MARK: -
@@ -318,17 +251,20 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
         }
         
         let location = gestureRecognizer.locationInView(tableView)
-        if let indexPath = tableView.indexPathForRowAtPoint(location) {
+        if let indexPath = tableView.indexPathForRowAtPoint(location) where tableViewOptions.contains(.Cells) {
             info = .TableViewCell(tableView: tableView, indexPath: indexPath)
         }
-        else if let section = tableView.indexForSectionHeaderAtPoint(location) {
+        else if let section = tableView.indexForSectionHeaderAtPoint(location) where tableViewOptions.contains(.SectionHeaders) {
             info = .TableViewSectionHeader(tableView: tableView, section: section)
         }
-        else if let section = tableView.indexForSectionFooterAtPoint(location) {
+        else if let section = tableView.indexForSectionFooterAtPoint(location) where tableViewOptions.contains(.SectionFooters) {
             info = .TableViewSectionFooter(tableView: tableView, section: section)
         }
-        else {
+        else if tableViewOptions.contains(.View) {
             info = .View(view: tableView)
+        }
+        else {
+            info = .Empty
         }
     }
     

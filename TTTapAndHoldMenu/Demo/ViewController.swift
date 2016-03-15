@@ -8,14 +8,58 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TTTapAndHoldMenuDataSource, TTTapAndHoldMenuDelegate {
+enum Gender: String {
+    case Male = "Male"
+    case Female = "Female"
+    
+    static func values() -> [String] {
+        return [Male.rawValue, Female.rawValue]
+    }
+}
+
+enum Role: String {
+    case User = "User"
+    case Admin = "Admin"
+    
+    static func values() -> [String] {
+        return [User.rawValue, Admin.rawValue]
+    }
+}
+
+class User {
+    var id: Int
+    var name: String
+    var surname: String
+    var gender: Gender
+    
+    var role: Role
+    
+    static var nextId = 1
+    
+    init(name: String, surname: String, gender: Gender, role: Role) {
+        self.name = name
+        self.surname = surname
+        self.gender = gender
+        
+        self.role = role
+        
+        self.id = User.nextId
+        User.nextId++
+    }
+}
+
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TTTapAndHoldMenuDataSource, TTTapAndHoldMenuDelegate, UserDetailsViewControllerListener {
 
     @IBOutlet weak var tableView: UITableView!
+    
+    var users: [User] = []
     
     var contextMenu = TTTapAndHoldMenu()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        prefillUsers()
         
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.registerClass(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: "header")
@@ -37,26 +81,34 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Dispose of any resources that can be recreated.
     }
 
-    //MARK: - UITableView data source methods
+    // MARK: - Init data
+    
+    private func prefillUsers() {
+        let bob = User(name: "Bob", surname: "Brown", gender: .Male, role: .Admin)
+        let mary = User(name: "Mary", surname: "Right", gender: .Female, role: .User)
+        let gary = User(name: "Gary", surname: "Oldman", gender: .Male, role: .User)
+        
+        users.append(bob)
+        users.append(mary)
+        users.append(gary)
+    }
+    
+    // MARK: - UITableView data source methods
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return users.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell")
-        if indexPath.row == 0 {
-            cell?.backgroundColor = UIColor.redColor()
-        }
-        else if indexPath.row == 1 {
-            cell?.backgroundColor = UIColor.greenColor()
-        }
-        else {
-            cell?.backgroundColor = UIColor.blueColor()
-        }
         
+        cell?.backgroundColor = UIColor(red: 0.85, green: 0.85, blue: 0.95, alpha: 1.0)
         cell?.selectionStyle = .None
         cell?.selectedBackgroundView = nil
+        
+        let user = users[indexPath.row]
+        cell?.textLabel?.text = "\(user.name) \(user.surname)"
+        cell?.detailTextLabel?.text
         
         return cell!
     }
@@ -73,11 +125,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = tableView.dequeueReusableHeaderFooterViewWithIdentifier("header")
         view?.backgroundView?.backgroundColor = UIColor.blackColor()
+        view?.textLabel?.text = "Users"
         
         return view
     }
     
-    //MARK: - TTTapAndHoldMenu data source methods
+    // MARK: - TTTapAndHoldMenu data source methods
     
     private struct Action {
         static let Add = "Add"
@@ -117,7 +170,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         else if tag == Action.ViewProfile {
             switch (menu.info) {
             case .TableViewCell(_, let indexPath):
-                if indexPath.row == 0 {
+                let user = users[indexPath.row]
+                if user.gender == .Male {
                     imageName = (selected) ? "user-male-selected.png" : "user-male.png"
                 }
                 else {
@@ -144,6 +198,58 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         default:
             return 0
         }
+    }
+    
+    // MARK: - TTTapAndHoldMenu delegate methods
+    
+    func contextMenu(menu: TTTapAndHoldMenu, didSelectItemAtIndex index: Int, withTag tag: String?) {
+        if tag == Action.Add {
+            pushUserDetailsViewController(.AddNew)
+        }
+        else {
+            switch (menu.info) {
+            case .TableViewCell(_, let indexPath):
+                if tag == Action.Remove {
+                    users.removeAtIndex(indexPath.row)
+                    tableView.reloadData()
+                }
+                else if tag == Action.ViewProfile {
+                    let user = users[indexPath.row]
+                    pushUserDetailsViewController(.Edit(user: user))
+                }
+            default:
+                break
+            }
+        }
+    }
+    
+    func pushUserDetailsViewController(type: UserDetailsViewControllerType) {
+        if let detailController = storyboard?.instantiateViewControllerWithIdentifier("UserDetailsViewController") as? UserDetailsViewController {
+            detailController.type = type
+            detailController.listener = self
+            let navigationController = UINavigationController(rootViewController: detailController)
+            self.presentViewController(navigationController, animated: true, completion: { () -> Void in
+            })
+        }
+    }
+    
+    // MARK: - UserDetailsViewController listener methods
+    
+    func userDetailsViewController(viewController: UserDetailsViewController, finishedWithUser theUser: User) {
+        switch (viewController.type) {
+        case .AddNew:
+            users.append(theUser)
+        case .Edit(let user):
+            users = users.map({ u -> User in
+                if u.id == user.id {
+                    return theUser
+                }
+                
+                return u
+            })
+        }
+        
+        tableView.reloadData()
     }
 }
 

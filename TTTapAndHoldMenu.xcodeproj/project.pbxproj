@@ -16,6 +16,9 @@
 		A0302BBC1C8FF8AE00EB252A /* user-female.png in Resources */ = {isa = PBXBuildFile; fileRef = A0302BB61C8FF8AE00EB252A /* user-female.png */; };
 		A0302BBD1C8FF8AE00EB252A /* user-male-selected.png in Resources */ = {isa = PBXBuildFile; fileRef = A0302BB71C8FF8AE00EB252A /* user-male-selected.png */; };
 		A0302BBE1C8FF8AE00EB252A /* user-male.png in Resources */ = {isa = PBXBuildFile; fileRef = A0302BB81C8FF8AE00EB252A /* user-male.png */; };
+		A04B347F1C982A7500345496 /* TTTapAndHoldMenuDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04B347E1C982A7500345496 /* TTTapAndHoldMenuDataSource.swift */; };
+		A04B34831C982B6100345496 /* UITableView+SupplemantaryViewAtPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04B34821C982B6100345496 /* UITableView+SupplemantaryViewAtPoint.swift */; };
+		A04B34851C982B7500345496 /* TTTapAndHoldMenuDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04B34841C982B7500345496 /* TTTapAndHoldMenuDelegate.swift */; };
 		A0D630DC1C881E46001A0EAC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0D630DA1C881E46001A0EAC /* Main.storyboard */; };
 		A0D630DE1C881E47001A0EAC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0D630DD1C881E47001A0EAC /* Assets.xcassets */; };
 		A0D630E11C881E47001A0EAC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0D630DF1C881E47001A0EAC /* LaunchScreen.storyboard */; };
@@ -25,6 +28,7 @@
 		A0D630F41C88223F001A0EAC /* StencilView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D630F01C88223F001A0EAC /* StencilView.swift */; };
 		A0D630FA1C8829BF001A0EAC /* UIView+Dimension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D630F91C8829BF001A0EAC /* UIView+Dimension.swift */; };
 		A0D630FC1C883057001A0EAC /* TTTapAndHoldMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D630FB1C883057001A0EAC /* TTTapAndHoldMenu.swift */; };
+		A0E6E22E1C92C27D0091516A /* UserDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0E6E22D1C92C27D0091516A /* UserDetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +41,9 @@
 		A0302BB61C8FF8AE00EB252A /* user-female.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "user-female.png"; path = "Demo/Resources/user-female.png"; sourceTree = "<group>"; };
 		A0302BB71C8FF8AE00EB252A /* user-male-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "user-male-selected.png"; path = "Demo/Resources/user-male-selected.png"; sourceTree = "<group>"; };
 		A0302BB81C8FF8AE00EB252A /* user-male.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "user-male.png"; path = "Demo/Resources/user-male.png"; sourceTree = "<group>"; };
+		A04B347E1C982A7500345496 /* TTTapAndHoldMenuDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TTTapAndHoldMenuDataSource.swift; path = Core/TTTapAndHoldMenuDataSource.swift; sourceTree = "<group>"; };
+		A04B34821C982B6100345496 /* UITableView+SupplemantaryViewAtPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UITableView+SupplemantaryViewAtPoint.swift"; path = "Core/UITableView+SupplemantaryViewAtPoint.swift"; sourceTree = "<group>"; };
+		A04B34841C982B7500345496 /* TTTapAndHoldMenuDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TTTapAndHoldMenuDelegate.swift; path = Core/TTTapAndHoldMenuDelegate.swift; sourceTree = "<group>"; };
 		A0D630D31C881E46001A0EAC /* TTTapAndHoldMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TTTapAndHoldMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0D630DB1C881E46001A0EAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A0D630DD1C881E47001A0EAC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -51,6 +58,7 @@
 		A0D630F01C88223F001A0EAC /* StencilView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StencilView.swift; path = Core/PinterestLikeMenu/StencilView.swift; sourceTree = "<group>"; };
 		A0D630F91C8829BF001A0EAC /* UIView+Dimension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIView+Dimension.swift"; path = "Core/Utils/UIView+Dimension.swift"; sourceTree = "<group>"; };
 		A0D630FB1C883057001A0EAC /* TTTapAndHoldMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TTTapAndHoldMenu.swift; path = Core/TTTapAndHoldMenu.swift; sourceTree = "<group>"; };
+		A0E6E22D1C92C27D0091516A /* UserDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +79,7 @@
 				A0302BB21C8FF4BA00EB252A /* Resources */,
 				A0302BAC1C8FF40800EB252A /* AppDelegate.swift */,
 				A0302BAD1C8FF40800EB252A /* ViewController.swift */,
+				A0E6E22D1C92C27D0091516A /* UserDetailsViewController.swift */,
 			);
 			name = Demo;
 			sourceTree = "<group>";
@@ -128,6 +137,9 @@
 			isa = PBXGroup;
 			children = (
 				A0D630FB1C883057001A0EAC /* TTTapAndHoldMenu.swift */,
+				A04B34841C982B7500345496 /* TTTapAndHoldMenuDelegate.swift */,
+				A04B347E1C982A7500345496 /* TTTapAndHoldMenuDataSource.swift */,
+				A04B34821C982B6100345496 /* UITableView+SupplemantaryViewAtPoint.swift */,
 				A0D630F51C882574001A0EAC /* Utils */,
 				A0D630E91C882221001A0EAC /* PinterestLikeMenu */,
 			);
@@ -234,14 +246,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0E6E22E1C92C27D0091516A /* UserDetailsViewController.swift in Sources */,
 				A0302BAE1C8FF40800EB252A /* AppDelegate.swift in Sources */,
 				A0D630FC1C883057001A0EAC /* TTTapAndHoldMenu.swift in Sources */,
 				A0D630F11C88223F001A0EAC /* BFPinterestLikeMenu.swift in Sources */,
 				A0302BAF1C8FF40800EB252A /* ViewController.swift in Sources */,
+				A04B347F1C982A7500345496 /* TTTapAndHoldMenuDataSource.swift in Sources */,
 				A0D630F31C88223F001A0EAC /* PinterestLikeMenuItem.m in Sources */,
 				A0302BB11C8FF41300EB252A /* PinterestLikeMenuItem2.swift in Sources */,
 				A0D630FA1C8829BF001A0EAC /* UIView+Dimension.swift in Sources */,
 				A0D630F21C88223F001A0EAC /* PinterestLikeMenu.m in Sources */,
+				A04B34831C982B6100345496 /* UITableView+SupplemantaryViewAtPoint.swift in Sources */,
+				A04B34851C982B7500345496 /* TTTapAndHoldMenuDelegate.swift in Sources */,
 				A0D630F41C88223F001A0EAC /* StencilView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

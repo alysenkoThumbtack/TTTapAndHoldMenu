@@ -6,6 +6,80 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
+        <!--User Details View Controller-->
+        <scene sceneID="YQS-zx-d27">
+            <objects>
+                <viewController storyboardIdentifier="UserDetailsViewController" title="User Details" modalPresentationStyle="formSheet" id="AuM-Xx-av1" userLabel="User Details View Controller" customClass="UserDetailsViewController" customModule="TTTapAndHoldMenu" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="rK7-E6-Wf4"/>
+                        <viewControllerLayoutGuide type="bottom" id="NVL-P9-qhY"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="w6t-aD-35w">
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="53B-ef-TQF">
+                                <rect key="frame" x="30" y="10" width="540" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Surname" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4Og-hk-dMr">
+                                <rect key="frame" x="30" y="50" width="540" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Gender" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Xbu-2n-r4w">
+                                <rect key="frame" x="30" y="90" width="100" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="Rzr-YK-xaD"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Role" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="o1K-Ss-fyp">
+                                <rect key="frame" x="30" y="130" width="100" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="KbD-C6-dgy"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lIJ-sK-pbE">
+                                <rect key="frame" x="282" y="203" width="37" height="30"/>
+                                <state key="normal" title="Done"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="4Og-hk-dMr" firstAttribute="leading" secondItem="w6t-aD-35w" secondAttribute="leadingMargin" constant="10" id="3uN-0W-qjb"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="4Og-hk-dMr" secondAttribute="trailing" constant="10" id="Llv-nb-UE7"/>
+                            <constraint firstItem="53B-ef-TQF" firstAttribute="top" secondItem="rK7-E6-Wf4" secondAttribute="bottom" constant="10" id="NBc-fi-PNA"/>
+                            <constraint firstItem="53B-ef-TQF" firstAttribute="leading" secondItem="w6t-aD-35w" secondAttribute="leadingMargin" constant="10" id="Wkx-eN-Uau"/>
+                            <constraint firstItem="Xbu-2n-r4w" firstAttribute="leading" secondItem="w6t-aD-35w" secondAttribute="leadingMargin" constant="10" id="dU2-6p-f0c"/>
+                            <constraint firstItem="Xbu-2n-r4w" firstAttribute="top" secondItem="4Og-hk-dMr" secondAttribute="bottom" constant="10" id="gez-3N-cNK"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="53B-ef-TQF" secondAttribute="trailing" constant="10" id="gyK-DB-ihf"/>
+                            <constraint firstItem="lIJ-sK-pbE" firstAttribute="top" secondItem="o1K-Ss-fyp" secondAttribute="bottom" constant="43" id="jTI-yn-d2y"/>
+                            <constraint firstItem="o1K-Ss-fyp" firstAttribute="leading" secondItem="w6t-aD-35w" secondAttribute="leadingMargin" constant="10" id="mCi-GX-fvy"/>
+                            <constraint firstItem="4Og-hk-dMr" firstAttribute="top" secondItem="53B-ef-TQF" secondAttribute="bottom" constant="10" id="qNP-U4-DrN"/>
+                            <constraint firstItem="o1K-Ss-fyp" firstAttribute="top" secondItem="Xbu-2n-r4w" secondAttribute="bottom" constant="10" id="qUd-Qp-46t"/>
+                            <constraint firstItem="lIJ-sK-pbE" firstAttribute="centerX" secondItem="w6t-aD-35w" secondAttribute="centerX" id="v1a-eS-HZa"/>
+                        </constraints>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <modalFormSheetSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <outlet property="doneButton" destination="lIJ-sK-pbE" id="4fh-fr-kVa"/>
+                        <outlet property="genderField" destination="Xbu-2n-r4w" id="64d-vL-ix7"/>
+                        <outlet property="nameField" destination="53B-ef-TQF" id="yu9-sZ-rHD"/>
+                        <outlet property="roleField" destination="o1K-Ss-fyp" id="z3V-vm-4HO"/>
+                        <outlet property="surnameField" destination="4Og-hk-dMr" id="NB9-ux-n7s"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6hC-Nu-jmW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-514" y="1210"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
