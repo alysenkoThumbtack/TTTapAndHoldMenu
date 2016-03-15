@@ -13,8 +13,8 @@ protocol UserDetailsViewControllerListener: class {
 }
 
 enum UserDetailsViewControllerType {
-    case AddNew
-    case Edit(user: User)
+    case AddNew(extraInfo: Any?)
+    case Edit(user: User, extraInfo: Any?)
 }
 
 class UserDetailsViewController : UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate {
@@ -24,7 +24,7 @@ class UserDetailsViewController : UIViewController, UITextFieldDelegate, UIPopov
     @IBOutlet weak var genderField: UITextField!
     @IBOutlet weak var roleField: UITextField!
     
-    var type: UserDetailsViewControllerType = .AddNew
+    var type: UserDetailsViewControllerType = .AddNew(extraInfo: nil)
     
     private let myContext = UnsafeMutablePointer<()>()
     
@@ -89,9 +89,9 @@ class UserDetailsViewController : UIViewController, UITextFieldDelegate, UIPopov
     
     private func setTextFieldsWithInitialValues() {
         switch (type) {
-        case .Edit(let user):
+        case .Edit(let user, _):
             fillTextFields(user)
-        case .AddNew:
+        case .AddNew(_):
             fillTextFields(nil)
         }
     }

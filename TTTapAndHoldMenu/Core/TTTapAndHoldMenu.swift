@@ -11,36 +11,6 @@ import Foundation
 
 var gestureIsActive = false
 
-enum TTTapAndHoldMenuInfo {
-    case Empty
-    
-    case TableViewCell(tableView: UITableView, indexPath: NSIndexPath)
-    case TableViewSectionHeader(tableView: UITableView, section: NSInteger)
-    case TableViewSectionFooter(tableView: UITableView, section: NSInteger)
-    
-    case CollectionViewItem(collectionView: UICollectionView, indexPath: NSIndexPath)
-    case CollectionViewSupplementaryView(collectionView: UICollectionView, kind: String, indexPath: NSIndexPath)
-    
-    case View(view: UIView)
-}
-
-struct TTMTableViewOptions : OptionSetType {
-    let rawValue: Int
-    
-    static let View = TTMTableViewOptions(rawValue: 1 << 0)
-    static let Cells  = TTMTableViewOptions(rawValue: 1 << 1)
-    static let SectionHeaders = TTMTableViewOptions(rawValue: 1 << 2)
-    static let SectionFooters = TTMTableViewOptions(rawValue: 1 << 3)
-    
-    static func All() -> TTMTableViewOptions {
-        return [View, Cells, SectionHeaders, SectionFooters]
-    }
-    
-    static func None() -> TTMTableViewOptions {
-        return []
-    }
-}
-
 class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
     weak var delegate: TTTapAndHoldMenuDelegate?
     weak var dataSource: TTTapAndHoldMenuDataSource?
@@ -251,14 +221,14 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
         }
         
         let location = gestureRecognizer.locationInView(tableView)
-        if let indexPath = tableView.indexPathForRowAtPoint(location) where tableViewOptions.contains(.Cells) {
-            info = .TableViewCell(tableView: tableView, indexPath: indexPath)
-        }
-        else if let section = tableView.indexForSectionHeaderAtPoint(location) where tableViewOptions.contains(.SectionHeaders) {
+        if let section = tableView.indexForSectionHeaderAtPoint(location) where tableViewOptions.contains(.SectionHeaders) {
             info = .TableViewSectionHeader(tableView: tableView, section: section)
         }
         else if let section = tableView.indexForSectionFooterAtPoint(location) where tableViewOptions.contains(.SectionFooters) {
             info = .TableViewSectionFooter(tableView: tableView, section: section)
+        }
+        else if let indexPath = tableView.indexPathForRowAtPoint(location) where tableViewOptions.contains(.Cells) {
+            info = .TableViewCell(tableView: tableView, indexPath: indexPath)
         }
         else if tableViewOptions.contains(.View) {
             info = .View(view: tableView)

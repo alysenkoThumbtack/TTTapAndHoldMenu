@@ -53,6 +53,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var tableView: UITableView!
     
     var users: [User] = []
+    var anotherUsers: [User] = []
     
     var contextMenu = TTTapAndHoldMenu()
     
@@ -91,12 +92,28 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         users.append(bob)
         users.append(mary)
         users.append(gary)
+        
+        let bilbo = User(name: "Bilbo", surname: "Baggins", gender: .Male, role: .User)
+        anotherUsers.append(bilbo)
+        
+        for (var i = 0; i < 20; i++) {
+            let gender = (i % 2 == 0) ? Gender.Male : Gender.Female
+            let role = (i % 3 == 0) ? Role.Admin : Role.Admin
+            let user = User(name: "user\(i)", surname: "\(i)", gender: gender, role: role)
+            
+            anotherUsers.append(user)
+        }
     }
     
     // MARK: - UITableView data source methods
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return users.count
+        if section == 0 {
+            return users.count
+        }
+        else {
+            return anotherUsers.count
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -106,7 +123,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell?.selectionStyle = .None
         cell?.selectedBackgroundView = nil
         
-        let user = users[indexPath.row]
+        let source = (indexPath.section == 0) ? users : anotherUsers
+        let user = source[indexPath.row]
         cell?.textLabel?.text = "\(user.name) \(user.surname)"
         cell?.detailTextLabel?.text
         
@@ -115,7 +133,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -125,7 +143,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = tableView.dequeueReusableHeaderFooterViewWithIdentifier("header")
         view?.backgroundView?.backgroundColor = UIColor.blackColor()
-        view?.textLabel?.text = "Users"
+        if section == 0 {
+            view?.textLabel?.text = "Users"
+        }
+        else {
+            view?.textLabel?.text = "Another Users"
+        }
         
         return view
     }
@@ -160,7 +183,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func contextMenu(menu: TTTapAndHoldMenu, imageForItemAtIndex index: Int, withTag tag: String?, forState selected: Bool) -> UIImage {
         var imageName = ""
-        
         if tag == Action.Add {
             imageName = "plus.png"
         }
@@ -170,7 +192,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         else if tag == Action.ViewProfile {
             switch (menu.info) {
             case .TableViewCell(_, let indexPath):
-                let user = users[indexPath.row]
+                let source = (indexPath.section == 0) ? users : anotherUsers
+                let user = source[indexPath.row]
                 if user.gender == .Male {
                     imageName = (selected) ? "user-male-selected.png" : "user-male.png"
                 }
@@ -204,18 +227,26 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func contextMenu(menu: TTTapAndHoldMenu, didSelectItemAtIndex index: Int, withTag tag: String?) {
         if tag == Action.Add {
-            pushUserDetailsViewController(.AddNew)
+            if let section = menu.info.section {
+                pushUserDetailsViewController(.AddNew(extraInfo:section))
+            }
         }
         else {
             switch (menu.info) {
             case .TableViewCell(_, let indexPath):
                 if tag == Action.Remove {
-                    users.removeAtIndex(indexPath.row)
+                    if indexPath.section == 0 {
+                        users.removeAtIndex(indexPath.row)
+                    }
+                    else {
+                        anotherUsers.removeAtIndex(indexPath.row)
+                    }
+                    
                     tableView.reloadData()
                 }
                 else if tag == Action.ViewProfile {
-                    let user = users[indexPath.row]
-                    pushUserDetailsViewController(.Edit(user: user))
+                    let user = (indexPath.section == 0) ? users[indexPath.row] : anotherUsers[indexPath.row]
+                    pushUserDetailsViewController(.Edit(user: user, extraInfo:indexPath.section))
                 }
             default:
                 break
@@ -237,16 +268,35 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func userDetailsViewController(viewController: UserDetailsViewController, finishedWithUser theUser: User) {
         switch (viewController.type) {
-        case .AddNew:
-            users.append(theUser)
-        case .Edit(let user):
-            users = users.map({ u -> User in
-                if u.id == user.id {
-                    return theUser
-                }
-                
-                return u
-            })
+        case .AddNew(let extraInfo):
+            let section = (extraInfo as? NSInteger) ?? 0
+            if section == 0 {
+                users.append(theUser)
+            }
+            else {
+                anotherUsers.append(theUser)
+            }
+            
+        case .Edit(let user, let extraInfo):
+            let section = (extraInfo as? NSInteger) ?? 0
+            if section == 0 {
+                users = users.map({ u -> User in
+                    if u.id == user.id {
+                        return theUser
+                    }
+                    
+                    return u
+                })
+            }
+            else {
+                anotherUsers = anotherUsers.map({ u -> User in
+                    if u.id == user.id {
+                        return theUser
+                    }
+                    
+                    return u
+                })
+            }
         }
         
         tableView.reloadData()
