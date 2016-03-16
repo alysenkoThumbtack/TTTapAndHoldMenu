@@ -164,15 +164,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func contextMenu(menu: TTTapAndHoldMenu, tagForItemAtIndex index: Int) -> String? {
         var tag: String? = nil
         
-        switch(menu.info) {
-        case .TableViewCell(_, _):
+        switch(menu.recipient) {
+        case .TableViewCell(_):
             if index == 0 {
                 tag = Action.Remove
             }
             else {
                 tag = Action.ViewProfile
             }
-        case .TableViewSectionHeader(_, _):
+        case .TableViewSectionHeader(_):
             tag = Action.Add
         default:
             print("Error!")
@@ -190,8 +190,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             imageName = "minus.png"
         }
         else if tag == Action.ViewProfile {
-            switch (menu.info) {
-            case .TableViewCell(_, let indexPath):
+            switch (menu.recipient) {
+            case .TableViewCell(let info):
+                let indexPath = info.indexPath
                 let source = (indexPath.section == 0) ? users : anotherUsers
                 let user = source[indexPath.row]
                 if user.gender == .Male {
@@ -213,10 +214,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func numberOfItemsForMenu(menu: TTTapAndHoldMenu) -> Int {
-        switch (menu.info) {
-        case .TableViewCell(_, _):
+        switch (menu.recipient) {
+        case .TableViewCell(_):
             return 2
-        case .TableViewSectionHeader(_, _):
+        case .TableViewSectionHeader(_):
             return 1
         default:
             return 0
@@ -227,13 +228,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func contextMenu(menu: TTTapAndHoldMenu, didSelectItemAtIndex index: Int, withTag tag: String?) {
         if tag == Action.Add {
-            if let section = menu.info.section {
+            if let section = menu.recipient.section {
                 pushUserDetailsViewController(.AddNew(extraInfo:section))
             }
         }
         else {
-            switch (menu.info) {
-            case .TableViewCell(_, let indexPath):
+            switch (menu.recipient) {
+            case .TableViewCell(let info):
+                let indexPath = info.indexPath
                 if tag == Action.Remove {
                     if indexPath.section == 0 {
                         users.removeAtIndex(indexPath.row)

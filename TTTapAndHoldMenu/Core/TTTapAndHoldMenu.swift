@@ -16,6 +16,7 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
     weak var dataSource: TTTapAndHoldMenuDataSource?
     
     var tableViewOptions = TTMTableViewOptions.All()
+    var collectionViewOptions = TTMCollectionViewOptions.All()
     
     var angle: Double = M_PI_2
     var radius: Float = 150
@@ -29,7 +30,7 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
     private var _views = NSHashTable.weakObjectsHashTable()
     private var _longPressRecognizers = NSHashTable.weakObjectsHashTable()
 
-    private(set) var info: TTTapAndHoldMenuInfo = .Empty
+    private(set) var recipient: TTTapAndHoldMenuRecipient = .None
     
     func attachToView(view: UIView) {
         if _views.containsObject(view) {
@@ -100,7 +101,7 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
         gestureIsActive = false
         menu?.finished(false, completionBlock: { () -> Void in
             self.menu = nil
-            self.resetMenuInfo()
+            self.resetMenuRecipient()
         })
     }
     
@@ -131,7 +132,7 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
             if !gestureIsActive {
                 //fillMenuInfo(gesture)
                 
-                var highlightedView = getHighlightedView(info)
+                var highlightedView = getHighlightedView(recipient)
                 if highlightedView == nil {
                     highlightedView = gesture.view!
                 }
@@ -150,16 +151,16 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
             }
             menu?.finished(true, completionBlock: { () -> Void in
                 self.menu = nil
-                self.resetMenuInfo()
+                self.resetMenuRecipient()
             })
         }
     }
     
     func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
-        fillMenuInfo(gestureRecognizer)
+        determineMenuRecipient(gestureRecognizer)
         var shouldShow = delegate?.contextMenuShouldAppear(self) ?? true
-        switch (info) {
-        case .Empty:
+        switch (recipient) {
+        case .None:
             shouldShow = false
         default:
             break
@@ -178,16 +179,20 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
     
     //MARK: -
     
-    private func getHighlightedView(info: TTTapAndHoldMenuInfo) -> UIView? {
-        switch (info) {
-        case .TableViewCell(let tableView, let indexPath):
-            return tableView.cellForRowAtIndexPath(indexPath)
-        case .TableViewSectionFooter(let tableView, let section):
-            return tableView.footerViewForSection(section)
-        case .TableViewSectionHeader(let tableView, let section):
-            return tableView.headerViewForSection(section)
-        case .View(let view):
-            return view
+    private func getHighlightedView(recipient: TTTapAndHoldMenuRecipient) -> UIView? {
+        switch (recipient) {
+        case .TableViewCell(let info):
+            return info.tableView.cellForRowAtIndexPath(info.indexPath)
+        case .TableViewSectionFooter(let info):
+            return info.tableView.footerViewForSection(info.section)
+        case .TableViewSectionHeader(let info):
+            return info.tableView.headerViewForSection(info.section)
+        case .TableViewHeader(let info):
+            return info.tableView.tableHeaderView
+        case .TableViewFooter(let info):
+            return info.tableView.tableFooterView
+        case .View(let info):
+            return info.view
             //TODO: implement cases for UICollectionView
         default:
             return nil
@@ -196,21 +201,20 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
     
     //MARK: - Menu Info methods
     
-    private func resetMenuInfo() {
-        info = .Empty
+    private func resetMenuRecipient() {
+        recipient = .None
     }
     
-    private func fillMenuInfo(gestureRecognizer: UIGestureRecognizer) {
+    private func determineMenuRecipient(gestureRecognizer: UIGestureRecognizer) {
         if let view = gestureRecognizer.view {
             if let tableView = view as? UITableView {
                 tableViewCase(tableView, gestureRecognizer: gestureRecognizer)
             }
             else if let collectionView = view as? UICollectionView {
-                //TODO: ..
-                info = .View(view: view)
+                collectionViewCase(collectionView, gestureRecognizer: gestureRecognizer)
             }
             else {
-                info = .View(view: view)
+                viewCase(view, gestureRecognizer: gestureRecognizer)
             }
         }
     }
@@ -221,21 +225,56 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
         }
         
         let location = gestureRecognizer.locationInView(tableView)
+        if tableView.touchedTableViewHeader(location) && tableViewOptions.contains(.Header) {
+            let info = TTMTableViewHeaderInfo(tableView: tableView, location: location)
+            recipient = .TableViewHeader(info: info)
+        }
+        else if tableView.touchedTableViewFooter(location) && tableViewOptions.contains(.Footer) {
+            let info = TTMTableViewFooterInfo(tableView: tableView, location: location)
+            recipient = .TableViewFooter(info: info)
+        }
         if let section = tableView.indexForSectionHeaderAtPoint(location) where tableViewOptions.contains(.SectionHeaders) {
-            info = .TableViewSectionHeader(tableView: tableView, section: section)
+            let info = TTMTableViewSectionHeaderInfo(tableView: tableView, section: section, location: location)
+            recipient = .TableViewSectionHeader(info: info)
         }
         else if let section = tableView.indexForSectionFooterAtPoint(location) where tableViewOptions.contains(.SectionFooters) {
-            info = .TableViewSectionFooter(tableView: tableView, section: section)
+            let info = TTMTableViewSectionFooterInfo(tableView: tableView, section: section, location: location)
+            recipient = .TableViewSectionFooter(info: info)
         }
         else if let indexPath = tableView.indexPathForRowAtPoint(location) where tableViewOptions.contains(.Cells) {
-            info = .TableViewCell(tableView: tableView, indexPath: indexPath)
+            let info = TTMTableViewCellInfo(tableView: tableView, indexPath: indexPath, location: location)
+            recipient = .TableViewCell(info: info)
         }
         else if tableViewOptions.contains(.View) {
-            info = .View(view: tableView)
+            let info = TTMViewInfo(view: tableView, location: location)
+            recipient = .View(info: info)
         }
         else {
-            info = .Empty
+            recipient = .None
         }
+    }
+    
+    private func collectionViewCase(collectionView: UICollectionView, gestureRecognizer: UIGestureRecognizer) {
+        if !isValidPair(collectionView, gestureRecognizer: gestureRecognizer) {
+            return
+        }
+        
+        let location = gestureRecognizer.locationInView(collectionView)
+        let info = TTMViewInfo(view: collectionView, location: location)
+        recipient = .View(info: info)
+        //TODO: implement suitable handling
+        
+    }
+    
+    private func viewCase(view: UIView, gestureRecognizer: UIGestureRecognizer) {
+        if !isValidPair(view, gestureRecognizer: gestureRecognizer) {
+            return
+        }
+        
+        let location = gestureRecognizer.locationInView(view)
+        
+        let info = TTMViewInfo(view: view, location: location)
+        recipient = .View(info: info)
     }
     
     private func isValidPair(view: UIView, gestureRecognizer: UIGestureRecognizer) -> Bool {

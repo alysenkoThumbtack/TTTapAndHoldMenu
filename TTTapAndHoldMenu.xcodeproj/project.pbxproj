@@ -19,8 +19,9 @@
 		A04B347F1C982A7500345496 /* TTTapAndHoldMenuDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04B347E1C982A7500345496 /* TTTapAndHoldMenuDataSource.swift */; };
 		A04B34831C982B6100345496 /* UITableView+SupplemantaryViewAtPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04B34821C982B6100345496 /* UITableView+SupplemantaryViewAtPoint.swift */; };
 		A04B34851C982B7500345496 /* TTTapAndHoldMenuDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04B34841C982B7500345496 /* TTTapAndHoldMenuDelegate.swift */; };
-		A04B34871C983BE500345496 /* TTTapAndHoldMenuInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04B34861C983BE500345496 /* TTTapAndHoldMenuInfo.swift */; };
+		A04B34871C983BE500345496 /* TTTapAndHoldMenuRecipient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04B34861C983BE500345496 /* TTTapAndHoldMenuRecipient.swift */; };
 		A04B34891C983C2300345496 /* TTTapAndHoldMenuOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04B34881C983C2300345496 /* TTTapAndHoldMenuOptions.swift */; };
+		A04B348B1C99407700345496 /* TTMViewInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04B348A1C99407700345496 /* TTMViewInfo.swift */; };
 		A0D630DC1C881E46001A0EAC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0D630DA1C881E46001A0EAC /* Main.storyboard */; };
 		A0D630DE1C881E47001A0EAC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0D630DD1C881E47001A0EAC /* Assets.xcassets */; };
 		A0D630E11C881E47001A0EAC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0D630DF1C881E47001A0EAC /* LaunchScreen.storyboard */; };
@@ -46,8 +47,9 @@
 		A04B347E1C982A7500345496 /* TTTapAndHoldMenuDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TTTapAndHoldMenuDataSource.swift; path = Core/TTTapAndHoldMenuDataSource.swift; sourceTree = "<group>"; };
 		A04B34821C982B6100345496 /* UITableView+SupplemantaryViewAtPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UITableView+SupplemantaryViewAtPoint.swift"; path = "Core/UITableView+SupplemantaryViewAtPoint.swift"; sourceTree = "<group>"; };
 		A04B34841C982B7500345496 /* TTTapAndHoldMenuDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TTTapAndHoldMenuDelegate.swift; path = Core/TTTapAndHoldMenuDelegate.swift; sourceTree = "<group>"; };
-		A04B34861C983BE500345496 /* TTTapAndHoldMenuInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TTTapAndHoldMenuInfo.swift; path = Core/TTTapAndHoldMenuInfo.swift; sourceTree = "<group>"; };
+		A04B34861C983BE500345496 /* TTTapAndHoldMenuRecipient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TTTapAndHoldMenuRecipient.swift; path = Core/TTTapAndHoldMenuRecipient.swift; sourceTree = "<group>"; };
 		A04B34881C983C2300345496 /* TTTapAndHoldMenuOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TTTapAndHoldMenuOptions.swift; path = Core/TTTapAndHoldMenuOptions.swift; sourceTree = "<group>"; };
+		A04B348A1C99407700345496 /* TTMViewInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TTMViewInfo.swift; path = Core/TTMViewInfo.swift; sourceTree = "<group>"; };
 		A0D630D31C881E46001A0EAC /* TTTapAndHoldMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TTTapAndHoldMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0D630DB1C881E46001A0EAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A0D630DD1C881E47001A0EAC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -143,7 +145,8 @@
 				A0D630FB1C883057001A0EAC /* TTTapAndHoldMenu.swift */,
 				A04B34841C982B7500345496 /* TTTapAndHoldMenuDelegate.swift */,
 				A04B347E1C982A7500345496 /* TTTapAndHoldMenuDataSource.swift */,
-				A04B34861C983BE500345496 /* TTTapAndHoldMenuInfo.swift */,
+				A04B34861C983BE500345496 /* TTTapAndHoldMenuRecipient.swift */,
+				A04B348A1C99407700345496 /* TTMViewInfo.swift */,
 				A04B34881C983C2300345496 /* TTTapAndHoldMenuOptions.swift */,
 				A04B34821C982B6100345496 /* UITableView+SupplemantaryViewAtPoint.swift */,
 				A0D630F51C882574001A0EAC /* Utils */,
@@ -253,13 +256,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				A0E6E22E1C92C27D0091516A /* UserDetailsViewController.swift in Sources */,
-				A04B34871C983BE500345496 /* TTTapAndHoldMenuInfo.swift in Sources */,
+				A04B34871C983BE500345496 /* TTTapAndHoldMenuRecipient.swift in Sources */,
 				A0302BAE1C8FF40800EB252A /* AppDelegate.swift in Sources */,
 				A0D630FC1C883057001A0EAC /* TTTapAndHoldMenu.swift in Sources */,
 				A0D630F11C88223F001A0EAC /* BFPinterestLikeMenu.swift in Sources */,
 				A0302BAF1C8FF40800EB252A /* ViewController.swift in Sources */,
 				A04B347F1C982A7500345496 /* TTTapAndHoldMenuDataSource.swift in Sources */,
 				A0D630F31C88223F001A0EAC /* PinterestLikeMenuItem.m in Sources */,
+				A04B348B1C99407700345496 /* TTMViewInfo.swift in Sources */,
 				A0302BB11C8FF41300EB252A /* PinterestLikeMenuItem2.swift in Sources */,
 				A0D630FA1C8829BF001A0EAC /* UIView+Dimension.swift in Sources */,
 				A0D630F21C88223F001A0EAC /* PinterestLikeMenu.m in Sources */,
