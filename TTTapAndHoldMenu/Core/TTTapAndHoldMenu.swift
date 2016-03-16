@@ -21,6 +21,9 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
     var angle: Double = M_PI_2
     var radius: Float = 150
     
+    var imageSize: CGSize = CGSizeMake(40, 40)
+    var selectedImageSize: CGSize = CGSizeMake(40, 40)
+    
     var hintTextColor: UIColor = UIColor.whiteColor()
     var hintFont: UIFont = UIFont(name: "HelveticaNeue", size: 14)!
     
@@ -107,11 +110,16 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
     
     func createItem(index: Int, source: TTTapAndHoldMenuDataSource) -> PinterestLikeMenuItem {
         let tag: String? = source.contextMenu(self, tagForItemAtIndex: index)
-        let defaultImage: UIImage = source.contextMenu(self, imageForItemAtIndex: index, withTag: tag, forState: false)
-        let selectedImage: UIImage = source.contextMenu(self, imageForItemAtIndex: index, withTag: tag, forState: true)
+        
+        let image = source.contextMenu(self, imageForItemAtIndex: index, withTag: tag, forState: false)
+        let imageSize = source.contextMenu(self, imageSizeForItemAtIndex: index, withTag: tag, forState: false)
+        
+        let selectedImage = source.contextMenu(self, imageForItemAtIndex: index, withTag: tag, forState: true)
+        let selectedImageSize = source.contextMenu(self, imageSizeForItemAtIndex: index, withTag: tag, forState: true)
+        
         let hint: String = source.contextMenu(self, hintForItemAtIndex: index, withTag: tag)
         
-        let item: PinterestLikeMenuItem = PinterestLikeMenuItem(image: defaultImage, selctedImage: selectedImage) { () -> Void in
+        let item = PinterestLikeMenuItem(image: image, imageSize: imageSize, selectedImage: selectedImage, selectedImageSize: selectedImageSize) { () -> Void in
             self.delegate?.contextMenu(self, didSelectItemAtIndex: index, withTag: tag)
         }
         
@@ -130,8 +138,6 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
         let location: CGPoint = gesture.locationInView(gesture.view!.window!)
         if gesture.state == UIGestureRecognizerState.Began {
             if !gestureIsActive {
-                //fillMenuInfo(gesture)
-                
                 var highlightedView = getHighlightedView(recipient)
                 if highlightedView == nil {
                     highlightedView = gesture.view!

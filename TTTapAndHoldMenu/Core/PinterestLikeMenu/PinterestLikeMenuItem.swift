@@ -1,5 +1,5 @@
 //
-//  PinterestLikeMenuItem2.swift
+//  PinterestLikeMenuItem.swift
 //  TTTapAndHoldMenu
 //
 //  Created by alysenko on 09/03/16.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class PinterestLikeMenuItem2 : UIView {
+class PinterestLikeMenuItem : UIView {
     
     var image: UIImage {
         didSet {
@@ -35,17 +35,36 @@ class PinterestLikeMenuItem2 : UIView {
     
     private var imageView: UIImageView = UIImageView()
     
-    private let defaultSize = CGSizeMake(40, 40)
+    var imageSize = CGSizeMake(40, 40)
+    var selectedImageSize = CGSizeMake(50, 50)
     
-    init(image: UIImage, selectedImage: UIImage, selectedBlock: (Void -> Void)) {
+    var currentImageSize = CGSizeMake(40, 40) {
+        didSet {
+            imageView.Size = currentImageSize
+        }
+    }
+    
+    init(image: UIImage, imageSize: CGSize, selectedImage: UIImage, selectedImageSize: CGSize, selectedBlock: (Void -> Void)) {
         self.image = image
         self.selectedImage = selectedImage
+        
+        self.imageSize = imageSize
+        self.selectedImageSize = selectedImageSize
+        
         self.selectedBlock = selectedBlock
         
-        super.init(frame: CGRectMake(0, 0, defaultSize.width, defaultSize.height))
+        let width = max(imageSize.width, selectedImageSize.width)
+        let height = max(imageSize.height, selectedImageSize.height)
+        super.init(frame: CGRectMake(0, 0, width, height))
         
         self.addSubview(imageView)
         self.imageView.frame = self.bounds
+        
+        currentImageSize = imageSize
+        imageView.Size = currentImageSize
+        
+        imageView.image = image
+        imageView.highlightedImage = selectedImage
     }
 
     required init?(coder aDecoder: NSCoder) {

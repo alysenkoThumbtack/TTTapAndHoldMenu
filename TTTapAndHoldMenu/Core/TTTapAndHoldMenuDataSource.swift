@@ -15,7 +15,11 @@ protocol TTTapAndHoldMenuDataSource: class {
     
     // MARK: - Optional methods
     func contextMenu(menu: TTTapAndHoldMenu, tagForItemAtIndex index: Int) -> String?
+    
     func contextMenu(menu: TTTapAndHoldMenu, hintForItemAtIndex index: Int, withTag tag: String?) -> String
+    
+    func contextMenu(menu: TTTapAndHoldMenu, imageSizeForItemAtIndex: Int, withTag tag: String?, forState selected: Bool) -> CGSize
+    
     func angleForMenu(menu: TTTapAndHoldMenu) -> Double
     func radiusForMenu(menu: TTTapAndHoldMenu) -> Float
     
@@ -33,6 +37,10 @@ extension TTTapAndHoldMenuDataSource {
     
     func contextMenu(menu: TTTapAndHoldMenu, hintForItemAtIndex index: Int, withTag tag: String?) -> String {
         return ""
+    }
+    
+    func contextMenu(menu: TTTapAndHoldMenu, imageSizeForItemAtIndex: Int, withTag tag: String?, forState selected: Bool) -> CGSize {
+        return (selected) ? menu.selectedImageSize : menu.imageSize
     }
     
     func angleForMenu(menu: TTTapAndHoldMenu) -> Double {

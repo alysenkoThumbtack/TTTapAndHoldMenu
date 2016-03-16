@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		A0302BAE1C8FF40800EB252A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0302BAC1C8FF40800EB252A /* AppDelegate.swift */; };
 		A0302BAF1C8FF40800EB252A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0302BAD1C8FF40800EB252A /* ViewController.swift */; };
-		A0302BB11C8FF41300EB252A /* PinterestLikeMenuItem2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0302BB01C8FF41300EB252A /* PinterestLikeMenuItem2.swift */; };
+		A0302BB11C8FF41300EB252A /* PinterestLikeMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0302BB01C8FF41300EB252A /* PinterestLikeMenuItem.swift */; };
 		A0302BB91C8FF8AE00EB252A /* minus.png in Resources */ = {isa = PBXBuildFile; fileRef = A0302BB31C8FF8AE00EB252A /* minus.png */; };
 		A0302BBA1C8FF8AE00EB252A /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = A0302BB41C8FF8AE00EB252A /* plus.png */; };
 		A0302BBB1C8FF8AE00EB252A /* user-female-selected.png in Resources */ = {isa = PBXBuildFile; fileRef = A0302BB51C8FF8AE00EB252A /* user-female-selected.png */; };
@@ -22,12 +22,12 @@
 		A04B34871C983BE500345496 /* TTTapAndHoldMenuRecipient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04B34861C983BE500345496 /* TTTapAndHoldMenuRecipient.swift */; };
 		A04B34891C983C2300345496 /* TTTapAndHoldMenuOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04B34881C983C2300345496 /* TTTapAndHoldMenuOptions.swift */; };
 		A04B348B1C99407700345496 /* TTMViewInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04B348A1C99407700345496 /* TTMViewInfo.swift */; };
+		A04B348D1C996C2400345496 /* TTTapAndHoldMenuRecipient+Usability.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04B348C1C996C2400345496 /* TTTapAndHoldMenuRecipient+Usability.swift */; };
 		A0D630DC1C881E46001A0EAC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0D630DA1C881E46001A0EAC /* Main.storyboard */; };
 		A0D630DE1C881E47001A0EAC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0D630DD1C881E47001A0EAC /* Assets.xcassets */; };
 		A0D630E11C881E47001A0EAC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0D630DF1C881E47001A0EAC /* LaunchScreen.storyboard */; };
 		A0D630F11C88223F001A0EAC /* BFPinterestLikeMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D630EB1C88223F001A0EAC /* BFPinterestLikeMenu.swift */; };
 		A0D630F21C88223F001A0EAC /* PinterestLikeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = A0D630ED1C88223F001A0EAC /* PinterestLikeMenu.m */; };
-		A0D630F31C88223F001A0EAC /* PinterestLikeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A0D630EF1C88223F001A0EAC /* PinterestLikeMenuItem.m */; };
 		A0D630F41C88223F001A0EAC /* StencilView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D630F01C88223F001A0EAC /* StencilView.swift */; };
 		A0D630FA1C8829BF001A0EAC /* UIView+Dimension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D630F91C8829BF001A0EAC /* UIView+Dimension.swift */; };
 		A0D630FC1C883057001A0EAC /* TTTapAndHoldMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D630FB1C883057001A0EAC /* TTTapAndHoldMenu.swift */; };
@@ -37,7 +37,7 @@
 /* Begin PBXFileReference section */
 		A0302BAC1C8FF40800EB252A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Demo/AppDelegate.swift; sourceTree = "<group>"; };
 		A0302BAD1C8FF40800EB252A /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = Demo/ViewController.swift; sourceTree = "<group>"; };
-		A0302BB01C8FF41300EB252A /* PinterestLikeMenuItem2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PinterestLikeMenuItem2.swift; path = Core/PinterestLikeMenu/PinterestLikeMenuItem2.swift; sourceTree = "<group>"; };
+		A0302BB01C8FF41300EB252A /* PinterestLikeMenuItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PinterestLikeMenuItem.swift; path = Core/PinterestLikeMenu/PinterestLikeMenuItem.swift; sourceTree = "<group>"; };
 		A0302BB31C8FF8AE00EB252A /* minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = minus.png; path = Demo/Resources/minus.png; sourceTree = "<group>"; };
 		A0302BB41C8FF8AE00EB252A /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = plus.png; path = Demo/Resources/plus.png; sourceTree = "<group>"; };
 		A0302BB51C8FF8AE00EB252A /* user-female-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "user-female-selected.png"; path = "Demo/Resources/user-female-selected.png"; sourceTree = "<group>"; };
@@ -50,6 +50,7 @@
 		A04B34861C983BE500345496 /* TTTapAndHoldMenuRecipient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TTTapAndHoldMenuRecipient.swift; path = Core/TTTapAndHoldMenuRecipient.swift; sourceTree = "<group>"; };
 		A04B34881C983C2300345496 /* TTTapAndHoldMenuOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TTTapAndHoldMenuOptions.swift; path = Core/TTTapAndHoldMenuOptions.swift; sourceTree = "<group>"; };
 		A04B348A1C99407700345496 /* TTMViewInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TTMViewInfo.swift; path = Core/TTMViewInfo.swift; sourceTree = "<group>"; };
+		A04B348C1C996C2400345496 /* TTTapAndHoldMenuRecipient+Usability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "TTTapAndHoldMenuRecipient+Usability.swift"; path = "Core/TTTapAndHoldMenuRecipient+Usability.swift"; sourceTree = "<group>"; };
 		A0D630D31C881E46001A0EAC /* TTTapAndHoldMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TTTapAndHoldMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0D630DB1C881E46001A0EAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A0D630DD1C881E47001A0EAC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -59,8 +60,6 @@
 		A0D630EB1C88223F001A0EAC /* BFPinterestLikeMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BFPinterestLikeMenu.swift; path = Core/PinterestLikeMenu/BFPinterestLikeMenu.swift; sourceTree = "<group>"; };
 		A0D630EC1C88223F001A0EAC /* PinterestLikeMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PinterestLikeMenu.h; path = Core/PinterestLikeMenu/PinterestLikeMenu.h; sourceTree = "<group>"; };
 		A0D630ED1C88223F001A0EAC /* PinterestLikeMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PinterestLikeMenu.m; path = Core/PinterestLikeMenu/PinterestLikeMenu.m; sourceTree = "<group>"; };
-		A0D630EE1C88223F001A0EAC /* PinterestLikeMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PinterestLikeMenuItem.h; path = Core/PinterestLikeMenu/PinterestLikeMenuItem.h; sourceTree = "<group>"; };
-		A0D630EF1C88223F001A0EAC /* PinterestLikeMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PinterestLikeMenuItem.m; path = Core/PinterestLikeMenu/PinterestLikeMenuItem.m; sourceTree = "<group>"; };
 		A0D630F01C88223F001A0EAC /* StencilView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StencilView.swift; path = Core/PinterestLikeMenu/StencilView.swift; sourceTree = "<group>"; };
 		A0D630F91C8829BF001A0EAC /* UIView+Dimension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIView+Dimension.swift"; path = "Core/Utils/UIView+Dimension.swift"; sourceTree = "<group>"; };
 		A0D630FB1C883057001A0EAC /* TTTapAndHoldMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TTTapAndHoldMenu.swift; path = Core/TTTapAndHoldMenu.swift; sourceTree = "<group>"; };
@@ -146,6 +145,7 @@
 				A04B34841C982B7500345496 /* TTTapAndHoldMenuDelegate.swift */,
 				A04B347E1C982A7500345496 /* TTTapAndHoldMenuDataSource.swift */,
 				A04B34861C983BE500345496 /* TTTapAndHoldMenuRecipient.swift */,
+				A04B348C1C996C2400345496 /* TTTapAndHoldMenuRecipient+Usability.swift */,
 				A04B348A1C99407700345496 /* TTMViewInfo.swift */,
 				A04B34881C983C2300345496 /* TTTapAndHoldMenuOptions.swift */,
 				A04B34821C982B6100345496 /* UITableView+SupplemantaryViewAtPoint.swift */,
@@ -158,12 +158,10 @@
 		A0D630E91C882221001A0EAC /* PinterestLikeMenu */ = {
 			isa = PBXGroup;
 			children = (
-				A0302BB01C8FF41300EB252A /* PinterestLikeMenuItem2.swift */,
+				A0302BB01C8FF41300EB252A /* PinterestLikeMenuItem.swift */,
 				A0D630EB1C88223F001A0EAC /* BFPinterestLikeMenu.swift */,
 				A0D630EC1C88223F001A0EAC /* PinterestLikeMenu.h */,
 				A0D630ED1C88223F001A0EAC /* PinterestLikeMenu.m */,
-				A0D630EE1C88223F001A0EAC /* PinterestLikeMenuItem.h */,
-				A0D630EF1C88223F001A0EAC /* PinterestLikeMenuItem.m */,
 				A0D630F01C88223F001A0EAC /* StencilView.swift */,
 				A0D630EA1C88223F001A0EAC /* TTTapAndHoldMenu-Bridging-Header.h */,
 			);
@@ -262,10 +260,10 @@
 				A0D630F11C88223F001A0EAC /* BFPinterestLikeMenu.swift in Sources */,
 				A0302BAF1C8FF40800EB252A /* ViewController.swift in Sources */,
 				A04B347F1C982A7500345496 /* TTTapAndHoldMenuDataSource.swift in Sources */,
-				A0D630F31C88223F001A0EAC /* PinterestLikeMenuItem.m in Sources */,
 				A04B348B1C99407700345496 /* TTMViewInfo.swift in Sources */,
-				A0302BB11C8FF41300EB252A /* PinterestLikeMenuItem2.swift in Sources */,
+				A0302BB11C8FF41300EB252A /* PinterestLikeMenuItem.swift in Sources */,
 				A0D630FA1C8829BF001A0EAC /* UIView+Dimension.swift in Sources */,
+				A04B348D1C996C2400345496 /* TTTapAndHoldMenuRecipient+Usability.swift in Sources */,
 				A0D630F21C88223F001A0EAC /* PinterestLikeMenu.m in Sources */,
 				A04B34831C982B6100345496 /* UITableView+SupplemantaryViewAtPoint.swift in Sources */,
 				A04B34851C982B7500345496 /* TTTapAndHoldMenuDelegate.swift in Sources */,

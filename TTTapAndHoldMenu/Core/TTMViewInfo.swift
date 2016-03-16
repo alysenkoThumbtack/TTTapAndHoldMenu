@@ -18,9 +18,36 @@ import Foundation
     }
 }
 
-@objc class TTMTableViewInfo : TTMViewInfo {
+@objc protocol TTMTableViewBasedInfo {
+    var tableView: UITableView { get set }
+}
+
+@objc protocol TTMIndexPathBasedInfo {
+    var indexPath: NSIndexPath { get set }
+}
+
+@objc protocol TTMSectionBasedInfo {
+    var section: NSInteger { get set }
+}
+
+@objc protocol TTMCollectionViewBasedInfo {
+    var collectionView: UICollectionView { get set }
+}
+
+@objc protocol TTMKindBasedInfo {
+    var kind: String { get set }
+}
+
+
+@objc class TTMTableViewInfo : TTMViewInfo, TTMTableViewBasedInfo {
     var tableView: UITableView {
-        return view as! UITableView
+        get {
+            return view as! UITableView
+        }
+        
+        set {
+            view = newValue
+        }
     }
     
     init(tableView: UITableView, location: CGPoint) {
@@ -28,7 +55,7 @@ import Foundation
     }
 }
 
-@objc class TTMTableViewCellInfo : TTMTableViewInfo {
+@objc class TTMTableViewCellInfo : TTMTableViewInfo, TTMIndexPathBasedInfo {
     var indexPath: NSIndexPath
     
     init(tableView: UITableView, indexPath: NSIndexPath, location: CGPoint) {
@@ -38,7 +65,7 @@ import Foundation
     }
 }
 
-@objc class TTMTableViewSectionHeaderInfo : TTMTableViewInfo {
+@objc class TTMTableViewSectionHeaderInfo : TTMTableViewInfo, TTMSectionBasedInfo {
     var section: NSInteger
     
     init(tableView: UITableView, section: NSInteger, location: CGPoint) {
@@ -48,7 +75,7 @@ import Foundation
     }
 }
 
-@objc class TTMTableViewSectionFooterInfo : TTMTableViewInfo {
+@objc class TTMTableViewSectionFooterInfo : TTMTableViewInfo, TTMSectionBasedInfo {
     var section: NSInteger
     
     init(tableView: UITableView, section: NSInteger, location: CGPoint) {
@@ -65,9 +92,15 @@ import Foundation
 }
 
 
-@objc class TTMCollectionViewInfo : TTMViewInfo {
+@objc class TTMCollectionViewInfo : TTMViewInfo, TTMCollectionViewBasedInfo {
     var collectionView: UICollectionView {
-        return view as! UICollectionView
+        get {
+            return view as! UICollectionView
+        }
+        
+        set {
+            view = newValue
+        }
     }
     
     init(collectionView: UICollectionView, location: CGPoint) {
@@ -75,7 +108,7 @@ import Foundation
     }
 }
 
-@objc class TTMCollectionViewItemInfo : TTMCollectionViewInfo {
+@objc class TTMCollectionViewItemInfo : TTMCollectionViewInfo, TTMIndexPathBasedInfo {
     var indexPath: NSIndexPath
     
     init(collectionView: UICollectionView, indexPath: NSIndexPath, location: CGPoint) {
@@ -85,11 +118,11 @@ import Foundation
     }
 }
 
-@objc class TTMCollectionViewSupplementaryViewInfo : TTMCollectionViewInfo {
+@objc class TTMCollectionViewSupplementaryViewInfo : TTMCollectionViewInfo, TTMIndexPathBasedInfo, TTMKindBasedInfo {
     var indexPath: NSIndexPath
-    var kind: NSString
+    var kind: String
     
-    init(collectionView: UICollectionView, indexPath: NSIndexPath, kind: NSString, location: CGPoint) {
+    init(collectionView: UICollectionView, indexPath: NSIndexPath, kind: String, location: CGPoint) {
         self.indexPath = indexPath
         self.kind = kind
         

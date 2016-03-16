@@ -60,10 +60,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        prefillUsers()
+        restoreDefaultUsers()
         
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.registerClass(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: "header")
+        
+        let tableViewHeaderView = UIView()
+        tableViewHeaderView.Height = 128
+        tableViewHeaderView.backgroundColor = UIColor.darkGrayColor()
+        tableView.tableHeaderView = tableViewHeaderView
         
         contextMenu.hintTextColor = UIColor.blackColor()
         contextMenu.backViewColor = UIColor.clearColor()
@@ -71,9 +76,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         contextMenu.radius = 64
         contextMenu.angle = M_PI_4
+        contextMenu.imageSize = CGSize(width: 40, height: 40)
+        contextMenu.selectedImageSize = CGSize(width: 50, height: 50)
         
         contextMenu.dataSource = self
         contextMenu.delegate = self
+        
         contextMenu.attachToView(tableView)
     }
 
@@ -84,7 +92,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     // MARK: - Init data
     
-    private func prefillUsers() {
+    private func restoreDefaultUsers() {
+        users.removeAll()
+        
         let bob = User(name: "Bob", surname: "Brown", gender: .Male, role: .Admin)
         let mary = User(name: "Mary", surname: "Right", gender: .Female, role: .User)
         let gary = User(name: "Gary", surname: "Oldman", gender: .Male, role: .User)
@@ -92,6 +102,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         users.append(bob)
         users.append(mary)
         users.append(gary)
+        
+        anotherUsers.removeAll()
         
         let bilbo = User(name: "Bilbo", surname: "Baggins", gender: .Male, role: .User)
         anotherUsers.append(bilbo)
@@ -218,6 +230,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         case .TableViewCell(_):
             return 2
         case .TableViewSectionHeader(_):
+            return 1
+        case .TableViewHeader(_):
             return 1
         default:
             return 0

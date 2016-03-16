@@ -4,5 +4,4 @@
 
 #import <UIKit/UIKit.h>
 
-#import "PinterestLikeMenuItem.h"
 #import "PinterestLikeMenu.h"

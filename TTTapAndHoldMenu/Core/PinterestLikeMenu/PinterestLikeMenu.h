@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PinterestLikeMenuItem.h"
 
 @interface PinterestLikeMenu : UIView
 

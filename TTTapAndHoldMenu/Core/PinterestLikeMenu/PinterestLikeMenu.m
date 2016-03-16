@@ -15,6 +15,8 @@
 #define kBounceLength    (8)
 #define kPulseLength     (60)
 
+#define kMenuItemLength 40
+
 static CGFloat distanceBetweenXAndY(CGPoint pointX, CGPoint pointY)
 {
     CGFloat distance = 0;
@@ -82,7 +84,7 @@ static CGFloat distanceBetweenXAndY(CGPoint pointX, CGPoint pointY)
     self.maxDistance = kMaxLength;
     self.maxAngle = kMaxAngle;
     
-    self.startImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kMenuItemLength, kMenuItemLength)];
+    self.startImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, kMenuItemLength)];
     self.startImageView.image = [UIImage imageNamed:@"center"];
     
     for (int i = 0; i < self.submenus.count; i++)
@@ -162,10 +164,28 @@ static CGFloat distanceBetweenXAndY(CGPoint pointX, CGPoint pointY)
             CGPoint floatingPoint = [self floatingPointWithIndex:i];
             CGFloat currentDistance = distanceBetweenXAndY(touchedPoint, floatingPoint);
             currentDistance = currentDistance > self.maxDistance ? self.maxDistance : currentDistance;
-            float step = (currentDistance / self.maxDistance) * (self.maxDistance - self.distance);
+            
+            float k = (currentDistance / self.maxDistance);
+            float step = k * (self.maxDistance - self.distance);
+            
+            CGSize imageSize = menuItem.imageSize;
+            CGSize selectedImageSize = menuItem.selectedImageSize;
+            CGFloat wK = 0.0;
+            if (imageSize.width > 0 && selectedImageSize.width > 0) {
+                wK = selectedImageSize.width / imageSize.width - 1;
+            }
+            CGFloat updatedWidth = (1.0 + wK * (1.0 - k)) * imageSize.width;
+            
+            CGFloat hK = 0.0;
+            if (imageSize.height > 0 && selectedImageSize.height > 0) {
+                hK = selectedImageSize.height / imageSize.height - 1;
+            }
+            CGFloat updatedHeight = (1.0 + hK * (1.0 - k)) * imageSize.height;
+            
+            CGSize updatedSize = CGSizeMake(updatedWidth, updatedHeight);
             
             [UIView animateWithDuration:0.1 animations:^{
-                [self moveWithIndex:i offsetOfFloatingPoint:step];
+                [self moveWithIndex:i size:updatedSize offsetOfFloatingPoint:step];
             }];
             
             CGFloat distance = distanceBetweenXAndY(touchedPoint, floatingPoint);
@@ -187,6 +207,7 @@ static CGFloat distanceBetweenXAndY(CGPoint pointX, CGPoint pointY)
             // back to init state
             [UIView animateWithDuration:0.20 animations:^{
                 [self setThePostion:i];
+                menuItem.currentImageSize = menuItem.imageSize;
             } completion:^(BOOL finished) {
                 menuItem.selected = NO;
                 [self hideHint:menuItem];
@@ -252,15 +273,17 @@ static CGFloat distanceBetweenXAndY(CGPoint pointX, CGPoint pointY)
     [self disappear:completion];
 }
 
-- (void)moveWithIndex:(int)index offsetOfFloatingPoint:(float)offset
+- (void)moveWithIndex:(int)index size:(CGSize)size offsetOfFloatingPoint:(float)offset
 {
-    UIView *menuItem = (UIView *)self.submenus[index];
+    PinterestLikeMenuItem *menuItem = (PinterestLikeMenuItem *)self.submenus[index];
     CGPoint floating = [self floatingPointWithIndex:index];
     float radian = [self radianWithIndex:index];
     radian = radian - M_PI;
     float x = floating.x + offset * cos(radian);
     float y = floating.y + offset * sin(radian);
+    
     menuItem.center = CGPointMake(x, y);
+    menuItem.currentImageSize = size;
 }
 
 - (void)setThePostion:(int)index
