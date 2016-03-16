@@ -38,7 +38,7 @@ class BFPinterestLikeMenu: PinterestLikeMenu {
         backStencilView.backgroundColor = backStancilViewColor
         if let view = viewToHighlight {
             let windowRect = view.superview!.convertRect(view.frame, toView: nil)
-            backStencilView.windowRect = getIntersectionsFor(windowRect, inView: view.superview!)
+            backStencilView.windowRect = windowRect//getIntersectionsFor(windowRect, inView: view.superview!)
         }
         
         self.insertSubview(backStencilView, atIndex: 0)
