@@ -239,7 +239,7 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
             let info = TTMTableViewFooterInfo(tableView: tableView, location: location)
             recipient = .TableViewFooter(info: info)
         }
-        if let section = tableView.indexForSectionHeaderAtPoint(location) where tableViewOptions.contains(.SectionHeaders) {
+        else if let section = tableView.indexForSectionHeaderAtPoint(location) where tableViewOptions.contains(.SectionHeaders) {
             let info = TTMTableViewSectionHeaderInfo(tableView: tableView, section: section, location: location)
             recipient = .TableViewSectionHeader(info: info)
         }

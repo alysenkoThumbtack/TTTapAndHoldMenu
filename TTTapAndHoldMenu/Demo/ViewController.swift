@@ -110,7 +110,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         for (var i = 0; i < 20; i++) {
             let gender = (i % 2 == 0) ? Gender.Male : Gender.Female
-            let role = (i % 3 == 0) ? Role.Admin : Role.Admin
+            let role = (i % 3 == 0) ? Role.Admin : Role.User
             let user = User(name: "user\(i)", surname: "\(i)", gender: gender, role: role)
             
             anotherUsers.append(user)
@@ -171,6 +171,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         static let Add = "Add"
         static let Remove = "Remove"
         static let ViewProfile = "View Profile"
+        static let Clear = "Clear"
+        static let DiscardChanges = "Discard Changes"
     }
     
     func contextMenu(menu: TTTapAndHoldMenu, tagForItemAtIndex index: Int) -> String? {
@@ -186,6 +188,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             }
         case .TableViewSectionHeader(_):
             tag = Action.Add
+        case .TableViewHeader(_):
+            if index == 0 {
+                tag = Action.Clear
+            }
+            else {
+                tag = Action.DiscardChanges
+            }
         default:
             print("Error!")
         }
@@ -200,6 +209,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
         else if tag == Action.Remove {
             imageName = "minus.png"
+        }
+        else if tag == Action.Clear {
+            imageName = "clear.png"
+        }
+        else if tag == Action.DiscardChanges {
+            imageName = "undo.png"
         }
         else if tag == Action.ViewProfile {
             switch (menu.recipient) {
@@ -232,7 +247,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         case .TableViewSectionHeader(_):
             return 1
         case .TableViewHeader(_):
-            return 1
+            return 2
         default:
             return 0
         }
@@ -245,6 +260,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             if let section = menu.recipient.section {
                 pushUserDetailsViewController(.AddNew(extraInfo:section))
             }
+        }
+        else if tag == Action.Clear {
+            users.removeAll()
+            anotherUsers.removeAll()
+            tableView.reloadData()
+        }
+        else if tag == Action.DiscardChanges {
+            restoreDefaultUsers()
+            tableView.reloadData()
         }
         else {
             switch (menu.recipient) {
