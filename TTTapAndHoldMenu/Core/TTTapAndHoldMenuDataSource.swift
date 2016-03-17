@@ -28,6 +28,8 @@ protocol TTTapAndHoldMenuDataSource: class {
     
     func hintTextColor(menu: TTTapAndHoldMenu) -> UIColor
     func hintFont(menu: TTTapAndHoldMenu) -> UIFont
+    
+    func highlightedRect(menu: TTTapAndHoldMenu, defaultHightlightedRect rect: CGRect) -> CGRect
 }
 
 extension TTTapAndHoldMenuDataSource {
@@ -65,5 +67,9 @@ extension TTTapAndHoldMenuDataSource {
     
     func hintFont(menu: TTTapAndHoldMenu) -> UIFont {
         return menu.hintFont
+    }
+    
+    func highlightedRect(menu: TTTapAndHoldMenu, defaultHightlightedRect rect: CGRect) -> CGRect {
+        return rect
     }
 }

@@ -13,22 +13,22 @@ class BFPinterestLikeMenu: PinterestLikeMenu {
     
     private let backStencilView = StencilView()
     private let backView = UIView()
-    private var viewToHighlight: UIView?
+    private var hightlightedRect: CGRect!
     
     var backViewColor = UIColor(white: 0.0, alpha: 0.3)
     var backStancilViewColor = UIColor(white: 0.0, alpha: 0.6)
     
-    init(submenus: [AnyObject]!, startPoint point: CGPoint, highlightView view: UIView?) {
+    init(submenus: [AnyObject]!, startPoint point: CGPoint, highlightedRect rect: CGRect) {
         super.init(submenus: submenus, startPoint: point)
-        viewToHighlight = view
+        hightlightedRect = rect
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func addBackView() {
@@ -36,10 +36,7 @@ class BFPinterestLikeMenu: PinterestLikeMenu {
         backStencilView.frame = self.frame
         backView.backgroundColor = backViewColor
         backStencilView.backgroundColor = backStancilViewColor
-        if let view = viewToHighlight {
-            let windowRect = view.superview!.convertRect(view.frame, toView: nil)
-            backStencilView.windowRect = windowRect//getIntersectionsFor(windowRect, inView: view.superview!)
-        }
+        backStencilView.windowRect = hightlightedRect
         
         self.insertSubview(backStencilView, atIndex: 0)
         self.insertSubview(backView, atIndex: 1)
