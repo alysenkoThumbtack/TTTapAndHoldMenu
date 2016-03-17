@@ -9,7 +9,6 @@
 import Foundation
 
 protocol TTTapAndHoldMenuDelegate: class {
-    
     // MARK: - Optional methods
     func contextMenuShouldAppear(menu: TTTapAndHoldMenu) -> Bool
     func contextMenuDidAppear(menu:TTTapAndHoldMenu)

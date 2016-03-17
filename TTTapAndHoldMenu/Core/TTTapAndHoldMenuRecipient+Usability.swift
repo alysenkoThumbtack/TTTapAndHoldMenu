@@ -80,6 +80,10 @@ extension TTTapAndHoldMenuRecipient {
         }
     }
     
+    var tableView: UITableView? {
+        return (info as? TTMTableViewBasedInfo)?.tableView
+    }
+    
     var collectionView: UICollectionView? {
         return (info as? TTMCollectionViewBasedInfo)?.collectionView
     }

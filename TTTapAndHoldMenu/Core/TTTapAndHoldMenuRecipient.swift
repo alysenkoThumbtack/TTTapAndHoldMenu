@@ -22,19 +22,4 @@ enum TTTapAndHoldMenuRecipient {
     case CollectionViewSupplementaryView(info: TTMCollectionViewSupplementaryViewInfo)
     
     case View(info: TTMViewInfo)
-    
-    var tableView: UITableView? {
-        switch (self) {
-        case .TableViewCell(let info):
-            return info.tableView
-        case .TableViewSectionHeader(let info):
-            return info.tableView
-        case .TableViewSectionFooter(let info):
-            return info.tableView
-        default:
-            return nil
-        }
-    }
-    
-    
 }
