@@ -8,8 +8,6 @@
 
 import Foundation
 
-
-
 extension UICollectionView {
     func indexPathForSupplemetaryViewOfKind(kind: String, atPoint point: CGPoint) -> NSIndexPath? {
         let indexPaths = indexPathsForVisibleSupplementaryElementsOfKind(kind)

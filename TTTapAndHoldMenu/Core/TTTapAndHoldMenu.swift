@@ -8,28 +8,45 @@
 
 import Foundation
 
-
 var gestureIsActive = false
+
+private struct Constants {
+    static let GestureSelector: Selector = "handleGestureRecognizerState:"
+    static let DeviceOrientationDidChangeSelector: Selector = "deviceOrientationDidChange:"
+    
+    static let Angle: Double = M_PI_2
+    static let Radius: CGFloat = 150
+    
+    static let ImageSize = CGSizeMake(40, 40)
+    static let SelectedImageSize = CGSizeMake(40, 40)
+    
+    static let HintTextColor = UIColor.whiteColor()
+    static let HintFont = UIFont(name: "HelveticaNeue", size: 14)!
+    
+    static let BackViewColor = UIColor(white: 0.0, alpha: 0.3)
+    static let BackStancilViewColor = UIColor(white: 0.0, alpha: 0.6)
+}
 
 class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
     weak var delegate: TTTapAndHoldMenuDelegate?
     weak var dataSource: TTTapAndHoldMenuDataSource?
     
     var tableViewOptions = TTMTableViewOptions.All()
+    
     var collectionViewOptions = TTMCollectionViewOptions.All()
     var collectionViewSupplementaryViewKinds = [String]()
     
-    var angle: Double = M_PI_2
-    var radius: Float = 150
+    var angle: Double = Constants.Angle
+    var radius: CGFloat = Constants.Radius
     
-    var imageSize: CGSize = CGSizeMake(40, 40)
-    var selectedImageSize: CGSize = CGSizeMake(40, 40)
+    var imageSize: CGSize = Constants.ImageSize
+    var selectedImageSize: CGSize = Constants.SelectedImageSize
     
-    var hintTextColor: UIColor = UIColor.whiteColor()
-    var hintFont: UIFont = UIFont(name: "HelveticaNeue", size: 14)!
+    var hintTextColor: UIColor = Constants.HintTextColor
+    var hintFont: UIFont = Constants.HintFont
     
-    var backViewColor = UIColor(white: 0.0, alpha: 0.3)
-    var backStancilViewColor = UIColor(white: 0.0, alpha: 0.6)
+    var backViewColor = Constants.BackViewColor
+    var backStancilViewColor = Constants.BackStancilViewColor
     
     private var _views = NSHashTable.weakObjectsHashTable()
     private var _longPressRecognizers = NSHashTable.weakObjectsHashTable()
@@ -49,9 +66,7 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
             return
         }
         
-        let selector: Selector = "popMenu:"
-        
-        let longPressRecognizer = UILongPressGestureRecognizer(target:self, action: selector)
+        let longPressRecognizer = UILongPressGestureRecognizer(target:self, action: Constants.GestureSelector)
         longPressRecognizer.delegate = self
         view.addGestureRecognizer(longPressRecognizer)
         
@@ -69,8 +84,7 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
         }
         if recognizers.count > 0 {
             if let recognizer = recognizers[0] as? UILongPressGestureRecognizer {
-                let selector: Selector = "popMenu:"
-                recognizer.removeTarget(self, action: selector)
+                recognizer.removeTarget(self, action: Constants.GestureSelector)
                 view.removeGestureRecognizer(recognizer)
             }
         }
@@ -80,7 +94,7 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
     // MARK: - Show & Hide
     
     private func show(point:CGPoint, fromView view: UIView, highlightedView: UIView) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "deviceOrientationDidChange:", name: UIDeviceOrientationDidChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Constants.DeviceOrientationDidChangeSelector, name: UIDeviceOrientationDidChangeNotification, object: nil)
         if let source = dataSource {
             let itemsCount: Int = source.numberOfItemsForMenu(self)
         
@@ -101,7 +115,7 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
             menu?.backViewColor = backViewColor
             menu?.backStancilViewColor = backStancilViewColor
             menu?.maxAngle = Float(angle)
-            menu?.distance = radius
+            menu?.distance = Float(radius)
             menu?.maxDistance = (menu?.distance)! + 20
             
             menu!.show()
@@ -146,7 +160,7 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
     
     // MARK: - Gesture recognizer handling
     
-    func popMenu(gesture: UIGestureRecognizer) {
+    func handleGestureRecognizerState(gesture: UIGestureRecognizer) {
         let location: CGPoint = gesture.locationInView(gesture.view!.window!)
         if gesture.state == UIGestureRecognizerState.Began {
             if !gestureIsActive {

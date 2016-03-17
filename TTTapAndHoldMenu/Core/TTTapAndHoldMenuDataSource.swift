@@ -21,7 +21,7 @@ protocol TTTapAndHoldMenuDataSource: class {
     func contextMenu(menu: TTTapAndHoldMenu, imageSizeForItemAtIndex: Int, withTag tag: String?, forState selected: Bool) -> CGSize
     
     func angleForMenu(menu: TTTapAndHoldMenu) -> Double
-    func radiusForMenu(menu: TTTapAndHoldMenu) -> Float
+    func radiusForMenu(menu: TTTapAndHoldMenu) -> CGFloat
     
     func backViewColor(menu: TTTapAndHoldMenu) -> UIColor
     func backStancilViewColor(menu: TTTapAndHoldMenu) -> UIColor
@@ -49,7 +49,7 @@ extension TTTapAndHoldMenuDataSource {
         return menu.angle
     }
     
-    func radiusForMenu(menu: TTTapAndHoldMenu) -> Float {
+    func radiusForMenu(menu: TTTapAndHoldMenu) -> CGFloat {
         return menu.radius
     }
     
