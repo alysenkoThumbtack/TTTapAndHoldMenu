@@ -48,7 +48,7 @@ class User {
     }
 }
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TTTapAndHoldMenuDataSource, TTTapAndHoldMenuDelegate, UserDetailsViewControllerListener {
+class TableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TTTapAndHoldMenuDataSource, TTTapAndHoldMenuDelegate, UserDetailsViewControllerListener {
 
     @IBOutlet weak var tableView: UITableView!
     

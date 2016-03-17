@@ -314,9 +314,12 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
             let info = TTMCollectionViewItemInfo(collectionView: collectionView, indexPath: indexPath, location: location)
             return .CollectionViewItem(info: info)
         }
-        else {
+        else if collectionViewOptions.contains(.View) {
             let info = TTMViewInfo(view: collectionView, location: location)
             return .View(info: info)
+        }
+        else {
+            return .None
         }
     }
     
