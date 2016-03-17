@@ -17,6 +17,7 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
     
     var tableViewOptions = TTMTableViewOptions.All()
     var collectionViewOptions = TTMCollectionViewOptions.All()
+    var collectionViewSupplementaryViewKinds = [String]()
     
     var angle: Double = M_PI_2
     var radius: Float = 150
@@ -34,6 +35,14 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
     private var _longPressRecognizers = NSHashTable.weakObjectsHashTable()
 
     private(set) var recipient: TTTapAndHoldMenuRecipient = .None
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    private var menu: BFPinterestLikeMenu?
+    
+    // MARK: - Attach & Detach
     
     func attachToView(view: UIView) {
         if _views.containsObject(view) {
@@ -67,12 +76,8 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
         }
         
     }
-    
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-    
-    private var menu: BFPinterestLikeMenu?
+
+    // MARK: - Show & Hide
     
     private func show(point:CGPoint, fromView view: UIView, highlightedView: UIView) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "deviceOrientationDidChange:", name: UIDeviceOrientationDidChangeNotification, object: nil)
@@ -111,6 +116,8 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
         })
     }
     
+    // MARK: - Menu Item initialization
+    
     func createItem(index: Int, source: TTTapAndHoldMenuDataSource) -> PinterestLikeMenuItem {
         let tag: String? = source.contextMenu(self, tagForItemAtIndex: index)
         
@@ -136,6 +143,8 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
         
         return item
     }
+    
+    // MARK: - Gesture recognizer handling
     
     func popMenu(gesture: UIGestureRecognizer) {
         let location: CGPoint = gesture.locationInView(gesture.view!.window!)
@@ -188,11 +197,13 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
         return false
     }
     
+    // MARK: - Device Orientation changes
+    
     func deviceOrientationDidChange(notification: NSNotification) {
         hide()
     }
     
-    //MARK: -
+    // MARK: - Highlighted view logic
     
     private func getHighlightedView(recipient: TTTapAndHoldMenuRecipient) -> UIView? {
         switch (recipient) {
@@ -206,15 +217,18 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
             return info.tableView.tableHeaderView
         case .TableViewFooter(let info):
             return info.tableView.tableFooterView
+        case .CollectionViewSupplementaryView(let info):
+            return info.collectionView.supplementaryViewForElementKind(info.kind, atIndexPath: info.indexPath)
+        case .CollectionViewItem(let info):
+            return info.collectionView.cellForItemAtIndexPath(info.indexPath)
         case .View(let info):
             return info.view
-            //TODO: implement cases for UICollectionView
         default:
             return nil
         }
     }
     
-    //MARK: - Menu Info methods
+    //MARK: - Menu Recipient methods
     
     private func resetMenuRecipient() {
         recipient = .None
@@ -278,10 +292,18 @@ class TTTapAndHoldMenu: NSObject, UIGestureRecognizerDelegate {
         }
         
         let location = gestureRecognizer.locationInView(collectionView)
-        let info = TTMViewInfo(view: collectionView, location: location)
-        return .View(info: info)
-        //TODO: implement suitable handling
         
+        if let info = collectionView.infoForSupplementaryViewAtPoint(location, kinds: collectionViewSupplementaryViewKinds) where collectionViewOptions.contains(.SupplementaryViews) {
+            return .CollectionViewSupplementaryView(info: info)
+        }
+        else if let indexPath = collectionView.indexPathForItemAtPoint(location) where collectionViewOptions.contains(.Items) {
+            let info = TTMCollectionViewItemInfo(collectionView: collectionView, indexPath: indexPath, location: location)
+            return .CollectionViewItem(info: info)
+        }
+        else {
+            let info = TTMViewInfo(view: collectionView, location: location)
+            return .View(info: info)
+        }
     }
     
     private func viewCase(view: UIView, gestureRecognizer: UIGestureRecognizer) -> TTTapAndHoldMenuRecipient {
