@@ -9,6 +9,14 @@
 import Foundation
 
 extension TTTapAndHoldMenuRecipient {
+    var isTableViewCell: Bool {
+        switch (self) {
+        case .TableViewCell(_):
+            return true
+        default:
+            return false
+        }
+    }
     
     var isTableViewHeader: Bool {
         switch (self) {
@@ -40,6 +48,15 @@ extension TTTapAndHoldMenuRecipient {
     var isTableViewSectionFooter: Bool {
         switch (self) {
         case .TableViewSectionFooter(_):
+            return true
+        default:
+            return false
+        }
+    }
+    
+    var isCollectionViewItem: Bool {
+        switch (self) {
+        case .CollectionViewItem(_):
             return true
         default:
             return false
@@ -93,6 +110,10 @@ extension TTTapAndHoldMenuRecipient {
     }
     
     var section: NSInteger? {
+        if let section = (info as? TTMIndexPathBasedInfo)?.indexPath.section {
+            return section
+        }
+        
         return (info as? TTMSectionBasedInfo)?.section
     }
     

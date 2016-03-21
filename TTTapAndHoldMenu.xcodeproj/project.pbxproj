@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		A0302BAE1C8FF40800EB252A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0302BAC1C8FF40800EB252A /* AppDelegate.swift */; };
-		A0302BAF1C8FF40800EB252A /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0302BAD1C8FF40800EB252A /* TableViewController.swift */; };
 		A0302BB11C8FF41300EB252A /* PinterestLikeMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0302BB01C8FF41300EB252A /* PinterestLikeMenuItem.swift */; };
 		A0302BB91C8FF8AE00EB252A /* minus.png in Resources */ = {isa = PBXBuildFile; fileRef = A0302BB31C8FF8AE00EB252A /* minus.png */; };
 		A0302BBA1C8FF8AE00EB252A /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = A0302BB41C8FF8AE00EB252A /* plus.png */; };
@@ -26,7 +25,14 @@
 		A04B34911C9993F100345496 /* undo.png in Resources */ = {isa = PBXBuildFile; fileRef = A04B348F1C9993F100345496 /* undo.png */; };
 		A04B34931C9A914700345496 /* UITableView+SupplemantaryViewAtPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04B34921C9A914700345496 /* UITableView+SupplemantaryViewAtPoint.swift */; };
 		A04B34951C9A917000345496 /* UICollectionView+SupplementaryViewAtPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04B34941C9A917000345496 /* UICollectionView+SupplementaryViewAtPoint.swift */; };
-		A082A0221C9ABEAD00B22B13 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A082A0211C9ABEAD00B22B13 /* CollectionViewController.swift */; };
+		A082A0261C9AC52300B22B13 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A082A0251C9AC52300B22B13 /* DataController.swift */; };
+		A082A0281C9FC96500B22B13 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A082A0271C9FC96500B22B13 /* CollectionViewController.swift */; };
+		A082A02A1C9FC98700B22B13 /* CollectionViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A082A0291C9FC98700B22B13 /* CollectionViewItem.swift */; };
+		A082A02C1C9FC99700B22B13 /* CollectionViewSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A082A02B1C9FC99700B22B13 /* CollectionViewSectionHeader.swift */; };
+		A082A0341C9FD15000B22B13 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A082A0321C9FD15000B22B13 /* BaseViewController.swift */; };
+		A082A0351C9FD15000B22B13 /* BaseViewController+TTTapAndHoldMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A082A0331C9FD15000B22B13 /* BaseViewController+TTTapAndHoldMenu.swift */; };
+		A082A0371C9FD16100B22B13 /* BaseViewController+UserDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = A082A0361C9FD16100B22B13 /* BaseViewController+UserDetails.swift */; };
+		A082A03A1C9FE50100B22B13 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A082A0391C9FE50100B22B13 /* TableViewController.swift */; };
 		A0D630DC1C881E46001A0EAC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0D630DA1C881E46001A0EAC /* Main.storyboard */; };
 		A0D630DE1C881E47001A0EAC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0D630DD1C881E47001A0EAC /* Assets.xcassets */; };
 		A0D630E11C881E47001A0EAC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0D630DF1C881E47001A0EAC /* LaunchScreen.storyboard */; };
@@ -40,7 +46,6 @@
 
 /* Begin PBXFileReference section */
 		A0302BAC1C8FF40800EB252A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Demo/AppDelegate.swift; sourceTree = "<group>"; };
-		A0302BAD1C8FF40800EB252A /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableViewController.swift; path = Demo/TableViewController.swift; sourceTree = "<group>"; };
 		A0302BB01C8FF41300EB252A /* PinterestLikeMenuItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PinterestLikeMenuItem.swift; path = Core/PinterestLikeMenu/PinterestLikeMenuItem.swift; sourceTree = "<group>"; };
 		A0302BB31C8FF8AE00EB252A /* minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = minus.png; path = Demo/Resources/minus.png; sourceTree = "<group>"; };
 		A0302BB41C8FF8AE00EB252A /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = plus.png; path = Demo/Resources/plus.png; sourceTree = "<group>"; };
@@ -58,7 +63,14 @@
 		A04B348F1C9993F100345496 /* undo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = undo.png; path = Demo/Resources/undo.png; sourceTree = "<group>"; };
 		A04B34921C9A914700345496 /* UITableView+SupplemantaryViewAtPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UITableView+SupplemantaryViewAtPoint.swift"; path = "Core/Utils/UITableView+SupplemantaryViewAtPoint.swift"; sourceTree = "<group>"; };
 		A04B34941C9A917000345496 /* UICollectionView+SupplementaryViewAtPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UICollectionView+SupplementaryViewAtPoint.swift"; path = "Core/Utils/UICollectionView+SupplementaryViewAtPoint.swift"; sourceTree = "<group>"; };
-		A082A0211C9ABEAD00B22B13 /* CollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
+		A082A0251C9AC52300B22B13 /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		A082A0271C9FC96500B22B13 /* CollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CollectionViewController.swift; path = Demo/CollectionView/CollectionViewController.swift; sourceTree = "<group>"; };
+		A082A0291C9FC98700B22B13 /* CollectionViewItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CollectionViewItem.swift; path = Demo/CollectionView/CollectionViewItem.swift; sourceTree = "<group>"; };
+		A082A02B1C9FC99700B22B13 /* CollectionViewSectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewSectionHeader.swift; sourceTree = "<group>"; };
+		A082A0321C9FD15000B22B13 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseViewController.swift; path = Demo/BaseViewController/BaseViewController.swift; sourceTree = "<group>"; };
+		A082A0331C9FD15000B22B13 /* BaseViewController+TTTapAndHoldMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "BaseViewController+TTTapAndHoldMenu.swift"; path = "Demo/BaseViewController/BaseViewController+TTTapAndHoldMenu.swift"; sourceTree = "<group>"; };
+		A082A0361C9FD16100B22B13 /* BaseViewController+UserDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BaseViewController+UserDetails.swift"; sourceTree = "<group>"; };
+		A082A0391C9FE50100B22B13 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableViewController.swift; path = Demo/TableView/TableViewController.swift; sourceTree = "<group>"; };
 		A0D630D31C881E46001A0EAC /* TTTapAndHoldMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TTTapAndHoldMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0D630DB1C881E46001A0EAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A0D630DD1C881E47001A0EAC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -88,12 +100,13 @@
 		A0302BAB1C8FF3E900EB252A /* Demo */ = {
 			isa = PBXGroup;
 			children = (
-				A0302BBF1C8FFB4600EB252A /* Cell */,
+				A082A0311C9FD14100B22B13 /* BaseViewController */,
+				A0302BBF1C8FFB4600EB252A /* CollectionView */,
+				A082A0381C9FE4D300B22B13 /* TableView */,
 				A0302BB21C8FF4BA00EB252A /* Resources */,
 				A0302BAC1C8FF40800EB252A /* AppDelegate.swift */,
-				A0302BAD1C8FF40800EB252A /* TableViewController.swift */,
-				A082A0211C9ABEAD00B22B13 /* CollectionViewController.swift */,
 				A0E6E22D1C92C27D0091516A /* UserDetailsViewController.swift */,
+				A082A0251C9AC52300B22B13 /* DataController.swift */,
 			);
 			name = Demo;
 			sourceTree = "<group>";
@@ -113,11 +126,32 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		A0302BBF1C8FFB4600EB252A /* Cell */ = {
+		A0302BBF1C8FFB4600EB252A /* CollectionView */ = {
 			isa = PBXGroup;
 			children = (
+				A082A0271C9FC96500B22B13 /* CollectionViewController.swift */,
+				A082A02B1C9FC99700B22B13 /* CollectionViewSectionHeader.swift */,
+				A082A0291C9FC98700B22B13 /* CollectionViewItem.swift */,
 			);
-			name = Cell;
+			name = CollectionView;
+			sourceTree = "<group>";
+		};
+		A082A0311C9FD14100B22B13 /* BaseViewController */ = {
+			isa = PBXGroup;
+			children = (
+				A082A0321C9FD15000B22B13 /* BaseViewController.swift */,
+				A082A0331C9FD15000B22B13 /* BaseViewController+TTTapAndHoldMenu.swift */,
+				A082A0361C9FD16100B22B13 /* BaseViewController+UserDetails.swift */,
+			);
+			name = BaseViewController;
+			sourceTree = "<group>";
+		};
+		A082A0381C9FE4D300B22B13 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				A082A0391C9FE50100B22B13 /* TableViewController.swift */,
+			);
+			name = TableView;
 			sourceTree = "<group>";
 		};
 		A0D630CA1C881E46001A0EAC = {
@@ -267,24 +301,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A082A0221C9ABEAD00B22B13 /* CollectionViewController.swift in Sources */,
 				A04B34931C9A914700345496 /* UITableView+SupplemantaryViewAtPoint.swift in Sources */,
 				A0E6E22E1C92C27D0091516A /* UserDetailsViewController.swift in Sources */,
 				A04B34871C983BE500345496 /* TTTapAndHoldMenuRecipient.swift in Sources */,
 				A0302BAE1C8FF40800EB252A /* AppDelegate.swift in Sources */,
 				A0D630FC1C883057001A0EAC /* TTTapAndHoldMenu.swift in Sources */,
 				A0D630F11C88223F001A0EAC /* BFPinterestLikeMenu.swift in Sources */,
-				A0302BAF1C8FF40800EB252A /* TableViewController.swift in Sources */,
 				A04B347F1C982A7500345496 /* TTTapAndHoldMenuDataSource.swift in Sources */,
 				A04B348B1C99407700345496 /* TTMViewInfo.swift in Sources */,
+				A082A0351C9FD15000B22B13 /* BaseViewController+TTTapAndHoldMenu.swift in Sources */,
+				A082A0261C9AC52300B22B13 /* DataController.swift in Sources */,
 				A0302BB11C8FF41300EB252A /* PinterestLikeMenuItem.swift in Sources */,
 				A0D630FA1C8829BF001A0EAC /* UIView+Dimension.swift in Sources */,
+				A082A0281C9FC96500B22B13 /* CollectionViewController.swift in Sources */,
+				A082A0341C9FD15000B22B13 /* BaseViewController.swift in Sources */,
+				A082A02A1C9FC98700B22B13 /* CollectionViewItem.swift in Sources */,
 				A04B34951C9A917000345496 /* UICollectionView+SupplementaryViewAtPoint.swift in Sources */,
+				A082A0371C9FD16100B22B13 /* BaseViewController+UserDetails.swift in Sources */,
 				A04B348D1C996C2400345496 /* TTTapAndHoldMenuRecipient+Usability.swift in Sources */,
 				A0D630F21C88223F001A0EAC /* PinterestLikeMenu.m in Sources */,
+				A082A03A1C9FE50100B22B13 /* TableViewController.swift in Sources */,
 				A04B34851C982B7500345496 /* TTTapAndHoldMenuDelegate.swift in Sources */,
 				A0D630F41C88223F001A0EAC /* StencilView.swift in Sources */,
 				A04B34891C983C2300345496 /* TTTapAndHoldMenuOptions.swift in Sources */,
+				A082A02C1C9FC99700B22B13 /* CollectionViewSectionHeader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
