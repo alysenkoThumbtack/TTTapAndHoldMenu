@@ -91,7 +91,6 @@ import Foundation
 @objc class TTMTableViewFooterInfo : TTMTableViewInfo {
 }
 
-
 @objc class TTMCollectionViewInfo : TTMViewInfo, TTMCollectionViewBasedInfo {
     var collectionView: UICollectionView {
         get {

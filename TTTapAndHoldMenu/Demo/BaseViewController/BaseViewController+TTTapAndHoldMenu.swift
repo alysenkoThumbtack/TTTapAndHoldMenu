@@ -88,7 +88,7 @@ extension TTTapAndHoldMenuDataSource where Self: BaseViewController {
             imageName = "undo.png"
         }
         else if tag == Action.ViewProfile {
-            if let indexPath = (menu.recipient.info as? TTMIndexPathBasedInfo)?.indexPath {
+            if let indexPath = menu.recipient.indexPath {
                 let source = (indexPath.section == 0) ? users : anotherUsers
                 let user = source[indexPath.row]
                 if user.gender == .Male {
@@ -145,7 +145,7 @@ extension TTTapAndHoldMenuDelegate where Self: BaseViewController {
             reloadView()
         }
         else {
-            if let indexPath = (menu.recipient.info as? TTMIndexPathBasedInfo)?.indexPath {
+            if let indexPath = menu.recipient.indexPath {
                 if tag == Action.Remove {
                     if indexPath.section == 0 {
                         users.removeAtIndex(indexPath.row)
